@@ -9,11 +9,12 @@ const avatarClasses = {
 
 type TestimonialCardProps = {
   review: Review;
+  animationDelay?: number;
 };
 
-export default function TestimonialCard({ review }: TestimonialCardProps) {
+export default function TestimonialCard({ review, animationDelay = 0 }: TestimonialCardProps) {
   return (
-    <article className="grid h-full min-h-[318px] grid-cols-[70px_1fr] gap-x-[22px] rounded-[22px] bg-[#f8f8f8] px-12 py-[42px] max-[600px]:min-h-0 max-[600px]:p-7">
+    <article data-fade-up data-fade-up-delay={animationDelay} className="grid h-full min-h-[318px] grid-cols-[70px_1fr] gap-x-[22px] rounded-[22px] bg-[#f8f8f8] px-12 py-[42px] max-[600px]:min-h-0 max-[600px]:p-7">
       <div className={`size-[70px] rounded-full ${avatarClasses[review.avatar]}`} aria-hidden="true" />
       <div className="flex h-[70px] flex-col justify-center gap-1">
         <h2 className="m-0 text-[22px] leading-none font-medium">{review.name}</h2>

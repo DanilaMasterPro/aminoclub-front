@@ -27,6 +27,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - On mobile, product category tabs remain in one horizontal, touch-scrollable row rather than wrapping.
 - Typography uses Inter for interface text and the locally bundled Helvetica Neue where explicitly needed.
 - Use Tailwind utility classes for component styling; keep `app/globals.css` limited to tokens and global reset rules.
+- `ScrollMotion` is the sole global client-side motion layer: it uses Lenis for smooth wheel and anchor scrolling, and GSAP with `IntersectionObserver` for one-time `fadeInUp` reveals on elements marked `data-fade-up` (with optional `data-fade-up-delay`). It observes dynamically rendered cards as well, respects `prefers-reduced-motion`, and must not prevent page scrolling over Swipers.
 - Avoid fluid CSS sizing functions in component classes. Use readable Tailwind values (for example `text-xl`, `text-[42px]`, `p-10`) and explicit breakpoint utilities for responsive adjustments.
 - Section spacing is owned by `HomeScreen`: normal adjacent sections use the shared gap, while the benefits section adds the same amount as external margin to create a deliberate double interval on desktop only.
 - The home hero uses a desktop and a dedicated portrait mobile background (`public/images/hero-v3.png` and `hero-mobile-v2.png`); keep the left side of the desktop asset visually clear for the headline. On mobile, reserve the upper area for the product artwork and place the copy and CTA in the `#f8f8f8` lower zone, using the light button variant.

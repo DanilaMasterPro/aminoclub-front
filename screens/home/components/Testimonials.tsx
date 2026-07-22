@@ -14,9 +14,9 @@ export default function Testimonials() {
         breakpoints={{ 700: { slidesPerView: 2, spaceBetween: 24 }, 1100: { slidesPerView: 2.75, spaceBetween: 34 } }}
         className="pb-12"
       >
-        {reviews.map((review) => (
+        {reviews.map((review, index) => (
           <SwiperSlide key={review.id} className="h-auto">
-            <TestimonialCard review={review} />
+            <TestimonialCard review={review} animationDelay={index * 0.08} />
           </SwiperSlide>
         ))}
       </Swiper>

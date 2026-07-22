@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="absolute top-0 left-0 z-[2] flex w-full items-center justify-between p-[58px] max-[1200px]:p-10 max-[600px]:p-[18px]">
+    <header data-fade-up className="absolute top-0 left-0 z-[2] flex w-full items-center justify-between p-[58px] max-[1200px]:p-10 max-[600px]:p-[18px]">
       <a className="inline-flex w-[200px] max-[1200px]:w-[170px] max-[600px]:w-[145px]" href="#top" aria-label="AMINOCLUB — главная">
         <Image src="/icons/logo.svg" alt="AMINOCLUB" width={192} height={39} priority />
       </a>

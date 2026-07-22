@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="relative hidden h-[435px] overflow-hidden max-[700px]:block max-[400px]:h-[400px]">
         <Image className="object-cover object-[center_66%]" src="/images/hero-mobile-v2.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 700px) 100vw, 0px" />
       </div>
-      <div className="w-[63%] px-[72px] max-[1200px]:px-12 max-[700px]:w-full max-[700px]:p-5 max-[700px]:py-8">
+      <div data-fade-up className="w-[63%] px-[72px] max-[1200px]:px-12 max-[700px]:w-full max-[700px]:p-5 max-[700px]:py-8">
         <p className="mb-[52px] text-xl font-bold tracking-[.18em] text-[#009d0a] uppercase max-[1200px]:mb-9 max-[1200px]:text-base max-[700px]:hidden">Спортивное питание для ежедневного режима</p>
         <h1
           id="hero-title"

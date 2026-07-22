@@ -16,8 +16,8 @@ export default function Benefits() {
     <section
       className="my-[120px] grid grid-cols-4 gap-x-[38px] gap-y-[68px] px-[3%] max-[1200px]:my-24 max-[1050px]:grid-cols-2 max-[600px]:my-0 max-[600px]:grid-cols-1 max-[600px]:gap-8"
       aria-label="Преимущества AMINOCLUB">
-      {benefits.map(([icon, title, text]) => (
-        <article className="flex items-center gap-5" key={title}>
+      {benefits.map(([icon, title, text], index) => (
+        <article data-fade-up data-fade-up-delay={index * 0.06} className="flex items-center gap-5" key={title}>
           <span className="grid size-20 shrink-0 place-items-center rounded-full bg-[#009d0a] max-[600px]:size-16">
             <Image src={`/icons/benefits/${icon}`} alt="" width={43} height={43} />
           </span>

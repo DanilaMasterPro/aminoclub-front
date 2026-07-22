@@ -9,7 +9,7 @@ const footerLinks = [
 export default function Footer() {
   return (
     <footer className="overflow-hidden rounded-[28px] bg-[#f8f8f8] bg-[url('/images/footer.png')] bg-cover bg-center max-[680px]:rounded-[20px]">
-      <div className="grid grid-cols-[1.95fr_2.45fr_.75fr] gap-12 px-[92px] pt-[82px] pb-[58px] max-[1200px]:px-12 max-[1200px]:pt-14 max-[1050px]:grid-cols-[1fr_1.5fr] max-[680px]:grid-cols-1 max-[680px]:gap-9 max-[680px]:px-6 max-[680px]:py-9">
+      <div data-fade-up className="grid grid-cols-[1.95fr_2.45fr_.75fr] gap-12 px-[92px] pt-[82px] pb-[58px] max-[1200px]:px-12 max-[1200px]:pt-14 max-[1050px]:grid-cols-[1fr_1.5fr] max-[680px]:grid-cols-1 max-[680px]:gap-9 max-[680px]:px-6 max-[680px]:py-9">
         <div>
           <Image src="/icons/logo.svg" alt="AMINOCLUB" width={400} height={81} />
           <p className="my-6 max-w-[330px] text-base leading-[1.55] text-[#4b5258]">
@@ -59,7 +59,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-[1fr_1.05fr] items-center border-t border-[#5b8d19]/35 px-[92px] py-[27px] text-[13px] text-[#4f555b] max-[1200px]:px-12 max-[1050px]:grid-cols-1 max-[680px]:px-6 max-[680px]:py-6">
+      <div data-fade-up className="grid grid-cols-[1fr_1.05fr] items-center border-t border-[#5b8d19]/35 px-[92px] py-[27px] text-[13px] text-[#4f555b] max-[1200px]:px-12 max-[1050px]:grid-cols-1 max-[680px]:px-6 max-[680px]:py-6">
         <div className="flex items-center gap-[30px] max-[680px]:flex-wrap">
           <p>© 2026 AMINOCLUB</p>
           <p className="border-l border-[#d4d8d0] pl-[30px] max-[680px]:border-l-0 max-[680px]:pl-0">Не является лекарственным средством</p>

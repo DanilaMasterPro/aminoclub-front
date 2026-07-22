@@ -20,7 +20,7 @@ export default function Products() {
 
   return (
     <section id="catalog" className="px-[1%]" aria-label="Каталог продуктов">
-      <div className="mb-[58px] flex flex-wrap gap-3.5 max-[600px]:mb-[30px] max-[600px]:flex-nowrap max-[600px]:overflow-x-auto max-[600px]:pb-1" role="tablist" aria-label="Категории товаров">
+      <div data-fade-up className="mb-[58px] flex flex-wrap gap-3.5 max-[600px]:mb-[30px] max-[600px]:flex-nowrap max-[600px]:overflow-x-auto max-[600px]:pb-1" role="tablist" aria-label="Категории товаров">
         {tabs.map((tab) => {
           const isActive = tab.id === activeCategory;
           return (
@@ -44,9 +44,9 @@ export default function Products() {
         watchOverflow
         breakpoints={{ 700: { slidesPerView: 2, spaceBetween: 26 }, 1100: { slidesPerView: 3, spaceBetween: 36 }, 1440: { slidesPerView: 4, spaceBetween: 36 } }}
         className="!overflow-hidden">
-        {visibleProducts.map((product) => (
+        {visibleProducts.map((product, index) => (
           <SwiperSlide key={product.id} className="h-auto">
-            <ProductCard product={product} />
+            <ProductCard product={product} animationDelay={index * 0.08} />
           </SwiperSlide>
         ))}
       </Swiper>

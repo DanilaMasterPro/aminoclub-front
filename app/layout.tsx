@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import ScrollMotion from "@/components/ScrollMotion";
 import "./globals.css";
 
 const inter = Inter({
@@ -113,7 +114,10 @@ export default function RootLayout({
       lang="ru"
       className={`${inter.variable} ${helveticaNeue.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ScrollMotion />
+        {children}
+      </body>
     </html>
   );
 }
