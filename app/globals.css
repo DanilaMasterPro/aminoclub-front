@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f3ee;
+  --background: #f5f3ed;
   --foreground: #15191a;
   --green: #009d0a;
   --font-helvetica-neue: "Helvetica Neue", Helvetica, Arial, sans-serif;

@@ -9,7 +9,7 @@ type ProductCardProps = {
 
 export default function ProductCard({ product, animationDelay = 0 }: ProductCardProps) {
   return (
-    <article data-fade-up data-fade-up-delay={animationDelay} className="flex h-full min-w-0 flex-col rounded-[22px] bg-[#fcfbf7] p-5">
+    <article data-fade-up data-fade-up-delay={animationDelay} className="flex h-full min-w-0 flex-col rounded-[22px] bg-[#fcfbf8] p-5">
       <div className="relative aspect-[390/274] overflow-hidden rounded-[15px] bg-[#f2f4ef]">
         <Image className="object-cover" src={product.image} alt={`${product.name}, вкус ${product.flavour}`} fill sizes="(max-width: 700px) 90vw, (max-width: 1100px) 45vw, 25vw" />
       </div>

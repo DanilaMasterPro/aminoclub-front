@@ -25,7 +25,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Keep the desktop CTA heading and its parent container constrained to 1000px so it wraps naturally in two lines without manual breaks.
 - The CTA uses `CAT.png` on desktop and the square `cta-mobile-v2.png` on mobile. Its mobile layout mirrors About: a square image above a `#f8f8f8` copy zone with the same divider, typography, and padding, without a CTA button.
 - On mobile, product category tabs remain in one horizontal, touch-scrollable row rather than wrapping.
+- On mobile, each product carousel slide fills the full available section width; do not reveal a partial next card.
 - Typography uses Inter for interface text and the locally bundled Helvetica Neue where explicitly needed.
+- The page background is `#F5F3ED`; product cards use `#FCFBF8`.
 - Use Tailwind utility classes for component styling; keep `app/globals.css` limited to tokens and global reset rules.
 - `ScrollMotion` is the sole global client-side motion layer: it uses Lenis for smooth wheel and anchor scrolling, and GSAP with `IntersectionObserver` for one-time `fadeInUp` reveals on elements marked `data-fade-up` (with optional `data-fade-up-delay`). It observes dynamically rendered cards as well, respects `prefers-reduced-motion`, and must not prevent page scrolling over Swipers.
 - Avoid fluid CSS sizing functions in component classes. Use readable Tailwind values (for example `text-xl`, `text-[42px]`, `p-10`) and explicit breakpoint utilities for responsive adjustments.

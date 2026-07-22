@@ -19,7 +19,7 @@ export default function Products() {
   const visibleProducts = useMemo(() => (activeCategory === "all" ? products : products.filter((product) => product.category === activeCategory)), [activeCategory]);
 
   return (
-    <section id="catalog" className="px-[1%]" aria-label="Каталог продуктов">
+    <section id="catalog" className="px-[1%] max-[600px]:px-0" aria-label="Каталог продуктов">
       <div data-fade-up className="mb-[58px] flex flex-wrap gap-3.5 max-[600px]:mb-[30px] max-[600px]:flex-nowrap max-[600px]:overflow-x-auto max-[600px]:pb-1" role="tablist" aria-label="Категории товаров">
         {tabs.map((tab) => {
           const isActive = tab.id === activeCategory;
@@ -38,7 +38,7 @@ export default function Products() {
       </div>
       <Swiper
         key={activeCategory}
-        slidesPerView={1.12}
+        slidesPerView={1}
         spaceBetween={20}
         grabCursor
         watchOverflow
