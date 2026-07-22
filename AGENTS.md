@@ -15,6 +15,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Put public static assets in `public/` and reference them with root-relative paths (for example `/images/hero.png`).
 - Keep temporary data that will later be received from the backend in `mock/`; screen components consume mock data through imports instead of owning it inline.
 - For horizontal, touch-friendly carousels use `swiper`; keep their slide data in `mock/` until the corresponding API is connected. Category tabs must filter their mock data and reset the carousel to its first slide.
+- Keep each home catalog product's presentational markup in `screens/home/components/ProductCard.tsx`; `Products.tsx` owns only the category tabs and carousel.
+- On mobile, product category tabs remain in one horizontal, touch-scrollable row rather than wrapping.
 - Typography uses Inter for interface text and the locally bundled Helvetica Neue where explicitly needed.
 - Use Tailwind utility classes for component styling; keep `app/globals.css` limited to tokens and global reset rules.
 - Avoid fluid CSS sizing functions in component classes. Use readable Tailwind values (for example `text-xl`, `text-[42px]`, `p-10`) and explicit breakpoint utilities for responsive adjustments.
