@@ -16,7 +16,7 @@ const variants = {
 };
 
 export default function Button({ label, href, variant = "primary", icon, showArrow = false, className = "" }: ButtonProps) {
-  const classes = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 px-5 py-2 text-sm leading-none font-semibold transition duration-200 hover:-translate-y-px ${variants[variant]} ${className}`;
+  const classes = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 px-7 py-2 text-sm leading-none font-semibold whitespace-nowrap transition duration-200 hover:-translate-y-px ${variants[variant]} ${className}`;
   const content = (
     <>
       {icon === "cart" && <Image className="brightness-0 invert" src="/icons/cart.svg" alt="" width={20} height={20} />}
