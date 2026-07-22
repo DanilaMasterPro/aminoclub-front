@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#009003" stroke-linecap="round" stroke-linejoin="round" aria-label="Science and quality">
+  <circle cx="24" cy="24" r="20.5" stroke-width="1.15"/>
+  <!-- Eyepiece and inclined tube -->
+  <path d="m23.15 10.8 3.25 2.4-1.85 2.5-3.25-2.4 1.85-2.5Z" stroke-width="2"/>
+  <path d="m20.4 13.2 5.2 3.85-8.8 11.9-5.2-3.85 8.8-11.9Z" stroke-width="2.1"/>
+  <!-- Microscope's double curved stand -->
+  <path d="M24.35 18.7c6.7 1.75 10.3 7.35 8.85 13.7-1.05 4.65-4.35 7.05-9.1 7.05" stroke-width="2.1"/>
+  <path d="M24.35 22.1c3.85 1.45 5.7 4.8 4.9 8.15-.55 2.3-2.2 3.9-4.45 4.35" stroke-width="1.6"/>
+  <!-- Stage -->
+  <path d="M10.8 31.1h11.4" stroke-width="2.1"/>
+  <!-- Two-level base -->
+  <path d="M14 35.1h14.1v3.1H14zM10.4 40h22.4" stroke-width="2.1"/>
+</svg>
