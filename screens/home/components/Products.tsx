@@ -60,7 +60,7 @@ export default function Products() {
               <p className="min-h-[54px] text-sm leading-[1.4] text-[#5b6165] max-[600px]:min-h-0">{product.description}</p>
               <strong className="my-6 text-[23px]">{product.price.toLocaleString("ru-RU")} ₽</strong>
               <div className="flex items-center gap-3.5">
-                <Button className="w-[235px] shrink-0 px-3.5 text-[15px] max-[1280px]:min-w-[130px] max-[1280px]:flex-1 max-[1280px]:w-auto"><Image className="brightness-0 invert" src="/icons/cart.svg" alt="" width={20} height={20} />В корзину</Button>
+                <Button className="w-[235px] shrink-0 px-3.5 text-[15px] max-[1280px]:min-w-[130px] max-[1280px]:flex-1 max-[1280px]:w-auto" label="В корзину" icon="cart" />
                 <span className="flex items-center gap-[7px] text-xs leading-[1.15] text-[#202425]"><Image src="/icons/clock.svg" alt="" width={25} height={25} />Доставка от<br />{product.delivery}</span>
               </div>
             </article>

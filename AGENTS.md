@@ -9,11 +9,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Use Bun for package commands. Do not introduce npm or yarn lockfiles.
 - `app/` contains only Next.js route entry points, root layout and global CSS.
 - Reusable UI belongs in `components/` (for example `Header`, `Footer`, `Button`).
+- `Button` accepts a text `label`, optional `href`, `variant`, `icon="cart"`, and `showArrow`; do not pass nested markup into it.
 - A page is assembled in `screens/<page>/<Page>Screen.tsx`; UI used by one screen only belongs in its `components/` directory.
 - Put public static assets in `public/` and reference them with root-relative paths (for example `/images/hero.png`).
 - Keep temporary data that will later be received from the backend in `mock/`; screen components consume mock data through imports instead of owning it inline.
 - For horizontal, touch-friendly carousels use `swiper`; keep their slide data in `mock/` until the corresponding API is connected. Category tabs must filter their mock data and reset the carousel to its first slide.
 - Typography uses Inter for interface text and the locally bundled Helvetica Neue where explicitly needed.
 - Use Tailwind utility classes for component styling; keep `app/globals.css` limited to tokens and global reset rules.
+- Avoid fluid CSS sizing functions in component classes. Use readable Tailwind values (for example `text-xl`, `text-[42px]`, `p-10`) and explicit breakpoint utilities for responsive adjustments.
 - Section spacing is owned by `HomeScreen`: normal adjacent sections use the shared gap, while the benefits section adds the same amount as external margin to create a deliberate double interval.
-- The home hero uses a desktop and a dedicated portrait mobile background (`public/images/hero.png` and `hero-mobile-v2.png`); keep the mobile copy and CTA in the lower contrast overlay rather than cropping the desktop artwork.
+- The home hero uses a desktop and a dedicated portrait mobile background (`public/images/hero-v3.png` and `hero-mobile-v2.png`); keep the left side of the desktop asset visually clear for the headline. On mobile, reserve the upper area for the product artwork and place the copy and CTA in the unobstructed light lower zone.
+- Keep the home hero headline as a single phrase: use a width constraint instead of manual `<br>` tags, allowing the browser to wrap naturally. The mobile hero is clamped between 600px and 800px in height, so the two-zone layout remains compact on both short and tall viewports.

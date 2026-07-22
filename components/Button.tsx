@@ -1,42 +1,44 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
-type CommonProps = {
-  children: ReactNode;
-  className?: string;
+import Image from "next/image";
+
+type ButtonProps = {
+  label: string;
+  href?: string;
   variant?: "primary" | "outline" | "light";
+  icon?: "cart";
+  showArrow?: boolean;
+  className?: string;
 };
 
-type LinkButtonProps = CommonProps &
-  { href: string } &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof CommonProps | "href">;
+const variants = {
+  primary: "border-transparent bg-[#009d0a] text-white",
+  outline: "border-[#009d0a] bg-transparent text-[#161a1b]",
+  light: "border-transparent bg-white text-[#171b1c]",
+};
 
-type NativeButtonProps = CommonProps &
-  { href?: never } &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof CommonProps | "href">;
+export default function Button({ label, href, variant = "primary", icon, showArrow = false, className = "" }: ButtonProps) {
+  const classes = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 px-5 py-2 text-sm leading-none font-semibold transition duration-200 hover:-translate-y-px ${variants[variant]} ${className}`;
+  const content = (
+    <>
+      {icon === "cart" && <Image className="brightness-0 invert" src="/icons/cart.svg" alt="" width={20} height={20} />}
+      {label}
+      {showArrow && (
+        <span className="grid size-12 place-items-center rounded-full bg-[#009d0a] relative left-4" aria-hidden="true">
+          <Image src="/icons/arrow-up-right.svg" alt="" width={12} height={13} />
+        </span>
+      )}
+    </>
+  );
 
-type ButtonProps = LinkButtonProps | NativeButtonProps;
-
-export default function Button(props: ButtonProps) {
-  const { children, className = "", variant = "primary" } = props;
-  const variants = {
-    primary: "border-transparent bg-[#009d0a] text-white",
-    outline: "border-[#009d0a] bg-transparent text-[#161a1b]",
-    light: "border-transparent bg-white text-[#171b1c]",
-  };
-  const classes = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full border px-5 py-2 text-sm leading-none font-medium transition duration-200 hover:-translate-y-px ${variants[variant]} ${className}`;
-
-  if (props.href) {
-    const { children: linkChildren, className: _className, variant: _variant, href, ...anchorProps } = props;
+  if (href)
     return (
-      <a className={classes} href={href} {...anchorProps}>
-        {linkChildren}
+      <a className={classes} href={href}>
+        {content}
       </a>
     );
-  }
 
-  const { children: buttonChildren, className: _className, variant: _variant, href: _href, ...buttonProps } = props;
   return (
-    <button className={classes} type="button" {...buttonProps}>
-      {buttonChildren}
+    <button className={classes} type="button">
+      {content}
     </button>
   );
 }
