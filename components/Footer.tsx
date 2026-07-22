@@ -12,28 +12,50 @@ export default function Footer() {
       <div className="grid grid-cols-[1.95fr_2.45fr_.75fr] gap-12 px-[92px] pt-[82px] pb-[58px] max-[1200px]:px-12 max-[1200px]:pt-14 max-[1050px]:grid-cols-[1fr_1.5fr] max-[680px]:grid-cols-1 max-[680px]:gap-9 max-[680px]:px-6 max-[680px]:py-9">
         <div>
           <Image src="/icons/logo.svg" alt="AMINOCLUB" width={400} height={81} />
-          <p className="my-6 max-w-[330px] text-base leading-[1.55] text-[#4b5258]">AMINOCLUB — ваш надёжный партнёр в мире спортивного питания. Чистые составы, эффективные формулы и честный подход к вашему прогрессу.</p>
+          <p className="my-6 max-w-[330px] text-base leading-[1.55] text-[#4b5258]">
+            AMINOCLUB — ваш надёжный партнёр в мире спортивного питания. Чистые составы, эффективные формулы и честный подход к вашему прогрессу.
+          </p>
           <div className="flex max-w-[420px] items-center gap-3.5 rounded-[15px] border border-[#86be4f] p-3.5 text-xs leading-[1.35] text-[#50555b]">
-            <Image src="/icons/footer/shield-check.svg" alt="" width={36} height={36} />
-            <span><b className="mb-[3px] block text-sm text-[#24282b]">Качество и безопасность</b>Вся продукция сертифицирована и соответствует стандартам качества.</span>
+            <Image className="shrink-0" src="/icons/footer/shield-check.webp" alt="" width={67} height={67} />
+            <span>
+              <b className="mb-[3px] block text-sm text-[#24282b]">Качество и безопасность</b>Вся продукция сертифицирована и соответствует стандартам качества.
+            </span>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-[30px] max-[680px]:grid-cols-1">
           {footerLinks.map((group) => (
             <div key={group.title}>
               <h2 className="mb-[18px] text-[17px] font-bold">{group.title}</h2>
-              {group.links.map((link) => <a className="mb-[13px] block border-b border-black/8 pb-[13px] text-[15px] text-[#5d6267]" href="#" key={link}>{link}</a>)}
+              {group.links.map((link, linkIndex) => {
+                const isLastLink = linkIndex === group.links.length - 1;
+                return (
+                  <a className={`mb-[13px] block border-b border-black/8 pb-[13px] text-[15px] text-[#5d6267] ${isLastLink ? "border-b-0" : ""}`} href="#" key={link}>
+                    {link}
+                  </a>
+                );
+              })}
             </div>
           ))}
         </div>
         <div className="flex flex-col items-start max-[1050px]:col-span-full">
           <h2 className="mb-[18px] text-[17px] font-bold">Свяжитесь с нами</h2>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="tel:88001234567"><Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />8 (800) 123-45-67</a>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="mailto:info@aminoclub.ru"><Image src="/icons/footer/mail.svg" alt="" width={25} height={25} />info@aminoclub.ru</a>
+          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="tel:88001234567">
+            <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />8 (800) 123-45-67
+          </a>
+          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="mailto:info@aminoclub.ru">
+            <Image src="/icons/footer/mail.svg" alt="" width={25} height={25} />
+            info@aminoclub.ru
+          </a>
           <div className="mt-2 flex gap-3">
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0]" href="#" aria-label="ВКонтакте"><Image src="/icons/footer/vk.svg" alt="" width={24} height={24} /></a>
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0]" href="#" aria-label="Telegram"><Image src="/icons/footer/telegram.svg" alt="" width={24} height={24} /></a>
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0]" href="#" aria-label="Instagram"><Image src="/icons/footer/instagram.svg" alt="" width={24} height={24} /></a>
+            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="ВКонтакте">
+              <Image src="/icons/footer/vk.svg" alt="" width={24} height={24} />
+            </a>
+            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="Telegram">
+              <Image src="/icons/footer/telegram.svg" alt="" width={24} height={24} />
+            </a>
+            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="Instagram">
+              <Image src="/icons/footer/instagram.svg" alt="" width={24} height={24} />
+            </a>
           </div>
         </div>
       </div>
@@ -43,9 +65,18 @@ export default function Footer() {
           <p className="border-l border-[#d4d8d0] pl-[30px] max-[680px]:border-l-0 max-[680px]:pl-0">Не является лекарственным средством</p>
         </div>
         <div className="grid grid-cols-3 gap-[18px] border-l border-[#d4d8d0] pl-[50px] max-[1050px]:mt-6 max-[1050px]:border-l-0 max-[1050px]:pl-0 max-[680px]:grid-cols-1">
-          <span className="grid grid-cols-[32px_1fr] gap-x-2.5 text-[11px] leading-[1.25]"><Image className="row-span-2" src="/icons/footer/leaf.svg" alt="" width={28} height={28} /><b className="mb-[3px] block text-sm text-[#24282b]">Чистые составы</b>Без лишних добавок и сложных примесей</span>
-          <span className="grid grid-cols-[32px_1fr] gap-x-2.5 text-[11px] leading-[1.25]"><Image className="row-span-2" src="/icons/footer/microscope.svg" alt="" width={28} height={28} /><b className="mb-[3px] block text-sm text-[#24282b]">Наука и качество</b>Эффективные формулы на основе исследований</span>
-          <span className="grid grid-cols-[32px_1fr] gap-x-2.5 text-[11px] leading-[1.25]"><Image className="row-span-2" src="/icons/footer/shield-check.svg" alt="" width={28} height={28} /><b className="mb-[3px] block text-sm text-[#24282b]">Для результата</b>Поддержка на каждом этапе вашего прогресса</span>
+          <span className="grid grid-cols-[67px_1fr] gap-x-2.5 text-[11px] leading-[1.25]">
+            <Image className="row-span-2 max-w-none" src="/icons/footer/leaf.webp" alt="" width={67} height={67} />
+            <b className="mb-[3px] block text-sm text-[#24282b]">Чистые составы</b>Без лишних добавок и сложных примесей
+          </span>
+          <span className="grid grid-cols-[67px_1fr] gap-x-2.5 text-[11px] leading-[1.25]">
+            <Image className="row-span-2 max-w-none" src="/icons/footer/microscope.webp" alt="" width={67} height={67} />
+            <b className="mb-[3px] block text-sm text-[#24282b]">Наука и качество</b>Эффективные формулы на основе исследований
+          </span>
+          <span className="grid grid-cols-[67px_1fr] gap-x-2.5 text-[11px] leading-[1.25]">
+            <Image className="row-span-2 max-w-none" src="/icons/footer/shield-check.webp" alt="" width={67} height={67} />
+            <b className="mb-[3px] block text-sm text-[#24282b]">Для результата</b>Поддержка на каждом этапе вашего прогресса
+          </span>
         </div>
       </div>
     </footer>

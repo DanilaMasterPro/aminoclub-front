@@ -11,11 +11,17 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Reusable UI belongs in `components/` (for example `Header`, `Footer`, `Button`).
 - `Button` accepts a text `label`, optional `href`, `variant`, `icon="cart"`, and `showArrow`; do not pass nested markup into it.
 - All `Button` variants share the base internal padding; only add local spacing overrides for a deliberate component-specific exception.
+- Footer link groups omit the underline on every group's final link across all breakpoints.
+- Footer social links use a `#fff1dd` circular fill with a subtle border.
+- Footer feature icons use 67px artwork cells so their images are not constrained by the text grid.
+- Footer feature icons use transparent WebP artwork in `#009003`, generated from the approved design references.
+- The Footer quality-and-safety callout reuses the 67px WebP shield icon.
 - A page is assembled in `screens/<page>/<Page>Screen.tsx`; UI used by one screen only belongs in its `components/` directory.
 - Put public static assets in `public/` and reference them with root-relative paths (for example `/images/hero.png`).
 - Keep temporary data that will later be received from the backend in `mock/`; screen components consume mock data through imports instead of owning it inline.
 - For horizontal, touch-friendly carousels use `swiper`; keep their slide data in `mock/` until the corresponding API is connected. Category tabs must filter their mock data and reset the carousel to its first slide.
 - Keep each home catalog product's presentational markup in `screens/home/components/ProductCard.tsx`; `Products.tsx` owns only the category tabs and carousel.
+- Keep each home testimonial's presentational markup in `screens/home/components/TestimonialCard.tsx`; `Testimonials.tsx` owns only the Swiper configuration.
 - Keep the desktop CTA heading and its parent container constrained to 1000px so it wraps naturally in two lines without manual breaks.
 - The CTA uses `CAT.png` on desktop and the square `cta-mobile-v2.png` on mobile. Its mobile layout mirrors About: a square image above a `#f8f8f8` copy zone with the same divider, typography, and padding, without a CTA button.
 - On mobile, product category tabs remain in one horizontal, touch-scrollable row rather than wrapping.
