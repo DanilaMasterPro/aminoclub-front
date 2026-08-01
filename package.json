@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:e2e:prepare": "bun run --cwd ../back test:prepare && bun run --cwd ../back test:e2e:seed",
+    "test:e2e": "bun run test:e2e:prepare && playwright test",
+    "test:e2e:headed": "bun run test:e2e:prepare && playwright test --headed"
   },
   "dependencies": {
     "axios": "^1.18.1",
@@ -19,6 +22,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@playwright/test": "latest",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
