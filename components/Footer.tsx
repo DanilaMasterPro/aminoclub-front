@@ -1,9 +1,14 @@
 import Image from "next/image";
 
 const footerLinks = [
-  { title: "Каталог", links: ["Креатин", "BCAA", "L-карнитин", "Бета-аланин"] },
-  { title: "Покупателям", links: ["Доставка и оплата", "Возврат", "Контакты"] },
-  { title: "Документы", links: ["Политика", "Оферта", "Соглашение"] },
+  { title: "Каталог", links: ["Креатин", "BCAA", "L-карнитин", "Бета-аланин"].map((label) => ({ label, href: "/#catalog" })) },
+  { title: "Покупателям", links: ["Доставка и оплата", "Возврат", "Контакты"].map((label) => ({ label, href: "#" })) },
+  { title: "Документы", links: [
+    { label: "Политика", href: "#" },
+    { label: "Оферта", href: "#" },
+    { label: "Соглашение", href: "#" },
+    { label: "Партнёрская программа", href: "/affiliate" },
+  ] },
 ];
 
 export default function Footer() {
@@ -29,8 +34,8 @@ export default function Footer() {
               {group.links.map((link, linkIndex) => {
                 const isLastLink = linkIndex === group.links.length - 1;
                 return (
-                  <a className={`mb-[13px] block border-b border-black/8 pb-[13px] text-[15px] text-[#5d6267] ${isLastLink ? "border-b-0" : ""}`} href="#" key={link}>
-                    {link}
+                  <a className={`mb-[13px] block border-b border-black/8 pb-[13px] text-[15px] text-[#5d6267] ${isLastLink ? "border-b-0" : ""}`} href={link.href} key={link.label}>
+                    {link.label}
                   </a>
                 );
               })}

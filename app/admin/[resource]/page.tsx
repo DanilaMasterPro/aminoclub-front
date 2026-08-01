@@ -6,5 +6,5 @@ export default async function AdminResourcePage({ params }: PageProps<"/admin/[r
   const { resource } = await params;
   if (resource === "referral") return <AdminReferralScreen />;
   if (resource === "settings") return <AdminSettingsScreen />;
-  return <AdminResourceListScreen resource={resource} />;
+  return <AdminResourceListScreen key={resource} resource={resource} />;
 }

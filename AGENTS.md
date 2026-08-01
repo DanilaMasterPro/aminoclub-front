@@ -17,6 +17,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Footer feature icons use transparent WebP artwork in `#009003`, generated from the approved design references.
 - The Footer quality-and-safety callout reuses the 67px WebP shield icon.
 - A page is assembled in `screens/<page>/<Page>Screen.tsx`; UI used by one screen only belongs in its `components/` directory.
+- Keep admin route screens directly in `screens/admin/`; put reusable admin UI in `screens/admin/components/` and admin screen state/API logic in `screens/admin/hooks/`, using hook names that identify their owning screen or workflow.
 - Put public static assets in `public/` and reference them with root-relative paths (for example `/images/hero.png`).
 - Keep temporary data that will later be received from the backend in `mock/`; screen components consume mock data through imports instead of owning it inline.
 - For horizontal, touch-friendly carousels use `swiper`; keep their slide data in `mock/` until the corresponding API is connected. Category tabs must filter their mock data and reset the carousel to its first slide.
