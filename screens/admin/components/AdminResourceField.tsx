@@ -2,6 +2,7 @@
 
 import type { ResourceField } from "../resource-config";
 import type { AdminCategoryOption } from "../hooks/useAdminResourceForm";
+import AdminImageDropzone from "./AdminImageDropzone";
 
 type AttachedFile = { url?: string; fileUrl?: string; title?: string };
 
@@ -11,11 +12,13 @@ type AdminResourceFieldProps = {
   categories: AdminCategoryOption[];
   onChange: (value: unknown) => void;
   onUpload: (file: File) => Promise<void>;
+  onRemove: (index: number) => void;
+  isUploading?: boolean;
 };
 
 const inputClassName = "mt-2 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-[#009d0a]";
 
-export default function AdminResourceField({ field, value, categories, onChange, onUpload }: AdminResourceFieldProps) {
+export default function AdminResourceField({ field, value, categories, onChange, onUpload, onRemove, isUploading }: AdminResourceFieldProps) {
   if (field.type === "checkbox") {
     return (
       <label className="flex items-center gap-3 text-sm font-medium sm:col-span-2">
@@ -25,14 +28,37 @@ export default function AdminResourceField({ field, value, categories, onChange,
     );
   }
 
-  if (field.type === "file-list" || field.type === "certificate-list") {
+  if (field.type === "image" || field.type === "image-list" || field.type === "file-list") {
+    const attachedImages = field.type === "file-list" && Array.isArray(value)
+      ? (value as AttachedFile[]).flatMap((file) => file.url ? [{ url: file.url, title: file.title }] : [])
+      : field.type === "image-list" && Array.isArray(value)
+        ? (value as unknown[]).filter((item): item is string => typeof item === "string").map((url) => ({ url }))
+        : typeof value === "string" && value
+          ? [{ url: value }]
+          : [];
+
+    return (
+      <AdminImageDropzone
+        fieldName={field.name}
+        label={field.label}
+        images={attachedImages}
+        multiple={field.type !== "image"}
+        required={field.required}
+        isUploading={isUploading}
+        onUpload={onUpload}
+        onRemove={onRemove}
+      />
+    );
+  }
+
+  if (field.type === "certificate-list") {
     const files = Array.isArray(value) ? value as AttachedFile[] : [];
     return (
       <div className="sm:col-span-2">
         <span className="text-sm font-medium">{field.label}</span>
         <input
           type="file"
-          accept={field.type === "file-list" ? "image/*" : "image/*,.pdf"}
+          accept="image/*,.pdf"
           multiple
           onChange={(event) => void Promise.all([...(event.target.files ?? [])].map(onUpload))}
           className={inputClassName}
@@ -48,7 +74,6 @@ export default function AdminResourceField({ field, value, categories, onChange,
     );
   }
 
-  const isImage = /image|cover/i.test(field.name);
   const wide = field.type === "textarea" ? "sm:col-span-2" : "";
 
   return (
@@ -66,17 +91,14 @@ export default function AdminResourceField({ field, value, categories, onChange,
           {field.options?.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
       ) : (
-        <>
-          <input
-            required={field.required}
-            type={field.type === "number" ? "number" : field.type === "date" ? "date" : "text"}
-            step={field.type === "number" ? "any" : undefined}
-            value={field.type === "tags" && Array.isArray(value) ? value.join(", ") : String(value ?? "")}
-            onChange={(event) => onChange(event.target.value)}
-            className={inputClassName}
-          />
-          {isImage && <input type="file" accept="image/*" onChange={(event) => event.target.files?.[0] && void onUpload(event.target.files[0])} className="mt-2 block w-full text-xs text-slate-500" />}
-        </>
+        <input
+          required={field.required}
+          type={field.type === "number" ? "number" : field.type === "date" ? "date" : "text"}
+          step={field.type === "number" ? "any" : undefined}
+          value={field.type === "tags" && Array.isArray(value) ? value.join(", ") : String(value ?? "")}
+          onChange={(event) => onChange(event.target.value)}
+          className={inputClassName}
+        />
       )}
     </label>
   );

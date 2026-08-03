@@ -71,6 +71,15 @@ test("admin signs in with OTP and opens catalog management", async ({ page }) =>
   await expect(page.getByTestId("admin-products")).toBeVisible();
   await page.getByRole("link", { name: "Добавить" }).click();
   await expect(page.getByTestId("admin-products-form")).toBeVisible();
+  await expect(page.getByTestId("image-dropzone-images")).toContainText("Можно добавить несколько");
+
+  await page.goto("/admin/categories/new");
+  await page.getByLabel("Название", { exact: true }).fill("Тестовый Ёж");
+  await expect(page.getByLabel("Slug", { exact: true })).toHaveValue("testovyy-yozh");
+  await expect(page.getByLabel("SEO title", { exact: true })).toHaveValue("Тестовый Ёж");
+  await page.getByLabel("Описание", { exact: true }).fill("Описание тестовой категории");
+  await expect(page.getByLabel("SEO description", { exact: true })).toHaveValue("Описание тестовой категории");
+  await expect(page.getByTestId("image-dropzone-imageUrl")).toContainText("Файл автоматически сохранится в WebP");
 });
 
 test("admin opens the complete trainer profile", async ({ page }) => {

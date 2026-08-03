@@ -33,7 +33,6 @@ export interface CatalogProduct {
   id: string;
   title: string;
   slug: string;
-  shortDescription: string | null;
   description: string;
   flavor: string | null;
   price: string;

@@ -1,4 +1,4 @@
-export type FieldType = "text" | "textarea" | "number" | "checkbox" | "select" | "date" | "file-list" | "certificate-list" | "tags";
+export type FieldType = "text" | "textarea" | "number" | "checkbox" | "select" | "date" | "image" | "image-list" | "file-list" | "certificate-list" | "tags";
 
 export interface ResourceField {
   name: string;
@@ -16,6 +16,7 @@ export interface ResourceConfig {
   editable?: boolean;
   searchable?: boolean;
   statusFilter?: Array<{ label: string; value: string }>;
+  autoFill?: { slug?: string; seoTitle?: string; seoDescription?: string };
   columns: Array<{ key: string; label: string }>;
   fields?: ResourceField[];
 }
@@ -23,6 +24,7 @@ export interface ResourceConfig {
 export const resourceConfigs: Record<string, ResourceConfig> = {
   products: {
     title: "Товары", singular: "товар", endpoint: "/admin/products", createable: true, editable: true, searchable: true,
+    autoFill: { slug: "title", seoTitle: "title", seoDescription: "description" },
     columns: [
       { key: "title", label: "Название" }, { key: "sku", label: "Артикул" },
       { key: "price", label: "Цена" }, { key: "stockQuantity", label: "Остаток" },
@@ -33,22 +35,20 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       { name: "sku", label: "Артикул", required: true }, { name: "categoryId", label: "ID категории", required: true },
       { name: "flavor", label: "Вкус" }, { name: "price", label: "Цена, ₽", type: "number", required: true },
       { name: "stockQuantity", label: "Остаток", type: "number", required: true },
-      { name: "shortDescription", label: "Короткое описание", type: "textarea" },
       { name: "description", label: "Описание", type: "textarea", required: true },
       { name: "images", label: "Изображения", type: "file-list" },
-      { name: "certificates", label: "Сертификаты качества", type: "certificate-list" },
       { name: "isActive", label: "Опубликован", type: "checkbox" },
-      { name: "isPopular", label: "Популярный", type: "checkbox" },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
     ],
   },
   categories: {
     title: "Категории", singular: "категорию", endpoint: "/admin/categories", createable: true, editable: true,
+    autoFill: { slug: "title", seoTitle: "title", seoDescription: "description" },
     columns: [{ key: "title", label: "Название" }, { key: "slug", label: "Slug" }, { key: "isActive", label: "Активна" }, { key: "_count.products", label: "Товаров" }],
     fields: [
       { name: "title", label: "Название", required: true }, { name: "slug", label: "Slug", required: true },
-      { name: "description", label: "Описание", type: "textarea" }, { name: "imageUrl", label: "Изображение" },
+      { name: "description", label: "Описание", type: "textarea" }, { name: "imageUrl", label: "Изображение", type: "image" },
       { name: "isActive", label: "Активна", type: "checkbox" }, { name: "sortOrder", label: "Порядок", type: "number" },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
@@ -87,10 +87,12 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
   },
   pages: {
     title: "Страницы", singular: "страницу", endpoint: "/admin/pages", createable: true, editable: true,
+    autoFill: { slug: "title", seoTitle: "title", seoDescription: "content" },
     columns: [{ key: "title", label: "Название" }, { key: "slug", label: "Slug" }, { key: "status", label: "Статус" }, { key: "updatedAt", label: "Обновлена" }],
     fields: [
       { name: "title", label: "Название", required: true }, { name: "slug", label: "Slug", required: true },
       { name: "heading", label: "Заголовок", required: true }, { name: "content", label: "Содержимое", type: "textarea", required: true },
+      { name: "imageUrls", label: "Изображения", type: "image-list" },
       { name: "status", label: "Статус", type: "select", options: [{ label: "Черновик", value: "DRAFT" }, { label: "Опубликована", value: "PUBLISHED" }, { label: "Архив", value: "ARCHIVED" }] },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
@@ -98,12 +100,14 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
   },
   articles: {
     title: "Новости", singular: "новость", endpoint: "/admin/articles", createable: true, editable: true,
+    autoFill: { slug: "title", seoTitle: "title", seoDescription: "excerpt" },
     columns: [{ key: "title", label: "Заголовок" }, { key: "slug", label: "Slug" }, { key: "status", label: "Статус" }, { key: "publishedAt", label: "Публикация" }],
     fields: [
       { name: "title", label: "Заголовок", required: true }, { name: "slug", label: "Slug", required: true },
       { name: "excerpt", label: "Анонс", type: "textarea" }, { name: "content", label: "Содержимое", type: "textarea", required: true },
-      { name: "coverImageUrl", label: "Обложка" },
+      { name: "coverImageUrl", label: "Обложка", type: "image" },
       { name: "status", label: "Статус", type: "select", options: [{ label: "Черновик", value: "DRAFT" }, { label: "Опубликована", value: "PUBLISHED" }, { label: "Архив", value: "ARCHIVED" }] },
+      { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
     ],
   },
@@ -111,8 +115,8 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
     title: "Баннеры", singular: "баннер", endpoint: "/admin/banners", createable: true, editable: true,
     columns: [{ key: "title", label: "Название" }, { key: "placement", label: "Расположение" }, { key: "sortOrder", label: "Порядок" }, { key: "isActive", label: "Активен" }],
     fields: [
-      { name: "title", label: "Название", required: true }, { name: "imageUrl", label: "Изображение", required: true },
-      { name: "mobileImageUrl", label: "Мобильное изображение" }, { name: "linkUrl", label: "Ссылка" },
+      { name: "title", label: "Название", required: true }, { name: "imageUrl", label: "Изображение", type: "image", required: true },
+      { name: "mobileImageUrl", label: "Мобильное изображение", type: "image" }, { name: "linkUrl", label: "Ссылка" },
       { name: "placement", label: "Расположение" }, { name: "sortOrder", label: "Порядок", type: "number" },
       { name: "isActive", label: "Активен", type: "checkbox" },
     ],

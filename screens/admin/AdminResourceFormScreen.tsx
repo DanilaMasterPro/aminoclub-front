@@ -7,7 +7,20 @@ import AdminResourceField from "./components/AdminResourceField";
 import { useAdminResourceForm } from "./hooks/useAdminResourceForm";
 
 export default function AdminResourceFormScreen({ resource, id }: { resource: string; id?: string }) {
-  const { config, values, categories, fields, isLoading, isSaving, error, setValue, upload, save } = useAdminResourceForm(resource, id);
+  const {
+    config,
+    values,
+    categories,
+    fields,
+    isLoading,
+    isSaving,
+    isUploading,
+    error,
+    setValue,
+    upload,
+    removeFile,
+    save,
+  } = useAdminResourceForm(resource, id);
 
   if (!config) return <p>Раздел не найден.</p>;
   if (!config.fields) return <p>Редактирование этого типа выполняется из списка.</p>;
@@ -35,12 +48,14 @@ export default function AdminResourceFormScreen({ resource, id }: { resource: st
               categories={categories}
               onChange={(value) => setValue(field.name, value)}
               onUpload={(file) => upload(field, file)}
+              onRemove={(index) => removeFile(field, index)}
+              isUploading={isUploading}
             />
           ))}
           {error && <p role="alert" className="text-sm text-red-600 sm:col-span-2">{error}</p>}
           <div className="flex gap-3 sm:col-span-2">
-            <button data-testid="resource-save" disabled={isSaving} className="rounded-lg bg-[#009d0a] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50">
-              {isSaving ? "Сохраняем…" : "Сохранить"}
+            <button data-testid="resource-save" disabled={isSaving || isUploading} className="rounded-lg bg-[#009d0a] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50">
+              {isUploading ? "Загружаем изображения…" : isSaving ? "Сохраняем…" : "Сохранить"}
             </button>
             <Link href={`/admin/${resource}`} className="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-medium">Отмена</Link>
           </div>
