@@ -7,6 +7,9 @@ type ButtonProps = {
   icon?: "cart";
   showArrow?: boolean;
   className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit";
 };
 
 const variants = {
@@ -15,7 +18,7 @@ const variants = {
   light: "border-transparent bg-white text-[#171b1c]",
 };
 
-export default function Button({ label, href, variant = "primary", icon, showArrow = false, className = "" }: ButtonProps) {
+export default function Button({ label, href, variant = "primary", icon, showArrow = false, className = "", onClick, disabled = false, type = "button" }: ButtonProps) {
   const classes = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 px-7 py-2 text-sm leading-none font-semibold whitespace-nowrap transition duration-200 hover:-translate-y-px ${variants[variant]} ${className}`;
   const content = (
     <>
@@ -37,7 +40,7 @@ export default function Button({ label, href, variant = "primary", icon, showArr
     );
 
   return (
-    <button className={classes} type="button">
+    <button className={classes} type={type} onClick={onClick} disabled={disabled}>
       {content}
     </button>
   );

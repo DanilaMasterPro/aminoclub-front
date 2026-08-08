@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import ScrollMotion from "@/components/ScrollMotion";
+import CartProvider from "@/components/cart/CartProvider";
+import ReferralTracker from "@/components/ReferralTracker";
 import { resolveMediaUrl } from "@/api/media";
 import { getSiteSettings } from "@/api/site-settings";
 import "./globals.css";
@@ -138,8 +140,11 @@ export default function RootLayout({
       className={`${inter.variable} ${helveticaNeue.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ScrollMotion />
-        {children}
+        <CartProvider>
+          <ScrollMotion />
+          <ReferralTracker />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

@@ -33,12 +33,14 @@ export interface CatalogProduct {
   id: string;
   title: string;
   slug: string;
+  sku?: string;
   description: string;
   flavor: string | null;
   price: string;
   stockQuantity: number;
   category: CatalogCategory;
   images: CatalogProductImage[];
+  certificates?: Array<{ id: string; title: string; fileUrl: string; sortOrder: number }>;
 }
 
 export interface SocialLinkSetting {
@@ -86,6 +88,48 @@ export interface CmsPage {
   seoDescription: string | null;
   seoKeywords: string[];
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+}
+
+export interface CmsArticle {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  coverImageUrl: string | null;
+  seoTitle: string | null;
+  seoDescription: string | null;
+  seoKeywords: string[];
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+  publishedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AppliedPromo {
+  code: string;
+  type: "PERCENT" | "FIXED";
+  value: string;
+  discountAmount: string;
+  finalAmount: string;
+  trainerId: string | null;
+}
+
+export interface CheckoutPayload {
+  name: string;
+  phone: string;
+  email: string;
+  city?: string;
+  address?: string;
+  comment?: string;
+  promoCode?: string;
+  referralCode?: string;
+  items: Array<{ productId: string; quantity: number }>;
+}
+
+export interface CheckoutResult {
+  order: { id: string; number: string; finalAmount: string };
+  payment: { id: string; confirmationUrl: string | null };
 }
 
 export interface TrainerDashboard {
