@@ -14,7 +14,13 @@ const nav = [
   ["Заявки тренеров", "/admin/trainer-applications"], ["Промокоды", "/admin/promo-codes"],
   ["Реферальная статистика", "/admin/referral"], ["Выплаты", "/admin/payouts"],
   ["Страницы", "/admin/pages"], ["Новости", "/admin/articles"],
-  ["Баннеры", "/admin/banners"], ["Настройки", "/admin/settings"],
+  ["Баннеры", "/admin/banners"],
+] as const;
+
+const settingsNav = [
+  ["Меню", "/admin/settings/menu"],
+  ["SEO шаблон", "/admin/settings/seo"],
+  ["Общие", "/admin/settings"],
 ] as const;
 
 function Shell({ user, children }: { user: AuthUser; children: React.ReactNode }) {
@@ -34,6 +40,17 @@ function Shell({ user, children }: { user: AuthUser; children: React.ReactNode }
             const active = href === "/admin" ? pathname === href : pathname.startsWith(href);
             return <Link key={href} href={href} onClick={() => setOpen(false)} className={`mb-1 block rounded-lg px-3 py-2.5 text-sm ${active ? "bg-[#009d0a] font-semibold" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}>{label}</Link>;
           })}
+          <div className="mt-1">
+            <Link href="/admin/settings" onClick={() => setOpen(false)} className={`block rounded-lg px-3 py-2.5 text-sm ${pathname.startsWith("/admin/settings") ? "font-semibold text-white" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}>
+              Настройки
+            </Link>
+            <div className="ml-3 border-l border-white/15 pl-2">
+              {settingsNav.map(([label, href]) => {
+                const active = pathname === href;
+                return <Link key={href} href={href} onClick={() => setOpen(false)} className={`mb-1 block rounded-lg px-3 py-2 text-xs ${active ? "bg-[#009d0a] font-semibold text-white" : "text-slate-400 hover:bg-white/10 hover:text-white"}`}>{label}</Link>;
+              })}
+            </div>
+          </div>
         </nav>
       </aside>
       {open && <button className="fixed inset-0 z-20 bg-black/30 lg:hidden" onClick={() => setOpen(false)} aria-label="Закрыть меню" />}

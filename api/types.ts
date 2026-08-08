@@ -41,6 +41,53 @@ export interface CatalogProduct {
   images: CatalogProductImage[];
 }
 
+export interface SocialLinkSetting {
+  id: string;
+  label: string;
+  url: string;
+  iconUrl: string;
+}
+
+export interface MenuItemSetting {
+  id: string;
+  label: string;
+  href: string;
+  pageId?: string;
+  group?: string;
+}
+
+export interface SiteSettings {
+  general: {
+    phone: string;
+    email: string;
+    logoUrl: string;
+    socialLinks: SocialLinkSetting[];
+  };
+  seo: {
+    title: string;
+    description: string;
+    keywords: string[];
+    imageUrl: string;
+  };
+  menus: {
+    header: MenuItemSetting[];
+    footer: MenuItemSetting[];
+  };
+}
+
+export interface CmsPage {
+  id: string;
+  title: string;
+  slug: string;
+  heading: string;
+  content: string;
+  imageUrls: string[];
+  seoTitle: string | null;
+  seoDescription: string | null;
+  seoKeywords: string[];
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+}
+
 export interface TrainerDashboard {
   trainer: {
     id: string;

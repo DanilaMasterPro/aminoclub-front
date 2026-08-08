@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import ScrollMotion from "@/components/ScrollMotion";
+import { resolveMediaUrl } from "@/api/media";
+import { getSiteSettings } from "@/api/site-settings";
 import "./globals.css";
 
 const inter = Inter({
@@ -99,10 +101,31 @@ const helveticaNeue = localFont({
   ],
 });
 
-export const metadata: Metadata = {
-  title: "AMINOCLUB — спортивное питание",
-  description: "Спортивное питание для ежедневного режима.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getSiteSettings();
+  const imageUrl = seo.imageUrl ? resolveMediaUrl(seo.imageUrl) : undefined;
+
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      siteName: "AMINOCLUB",
+      locale: "ru_RU",
+      type: "website",
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

@@ -1,22 +1,28 @@
 import Image from "next/image";
+import { resolveMediaUrl } from "@/api/media";
+import { getSiteSettings } from "@/api/site-settings";
+import type { MenuItemSetting } from "@/api/types";
 
-const footerLinks = [
-  { title: "Каталог", links: ["Креатин", "BCAA", "L-карнитин", "Бета-аланин"].map((label) => ({ label, href: "/#catalog" })) },
-  { title: "Покупателям", links: ["Доставка и оплата", "Возврат", "Контакты"].map((label) => ({ label, href: "#" })) },
-  { title: "Документы", links: [
-    { label: "Политика", href: "#" },
-    { label: "Оферта", href: "#" },
-    { label: "Соглашение", href: "#" },
-    { label: "Партнёрская программа", href: "/affiliate" },
-  ] },
-];
+function groupFooterLinks(items: MenuItemSetting[]) {
+  const groups = new Map<string, MenuItemSetting[]>();
+  for (const item of items) {
+    const title = item.group?.trim() || "Навигация";
+    groups.set(title, [...(groups.get(title) ?? []), item]);
+  }
+  return [...groups].map(([title, links]) => ({ title, links }));
+}
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getSiteSettings();
+  const footerLinks = groupFooterLinks(settings.menus.footer);
+  const logoUrl = resolveMediaUrl(settings.general.logoUrl || "/icons/logo.svg");
+  const phoneHref = settings.general.phone.replace(/[^\d+]/g, "");
+
   return (
     <footer className="overflow-hidden rounded-[28px] bg-[#f8f8f8] bg-[url('/images/footer.png')] bg-cover bg-center max-[680px]:rounded-[20px]">
       <div data-fade-up className="grid grid-cols-[1.95fr_2.45fr_.75fr] gap-12 px-[92px] pt-[82px] pb-[58px] max-[1200px]:px-12 max-[1200px]:pt-14 max-[1050px]:grid-cols-[1fr_1.5fr] max-[680px]:grid-cols-1 max-[680px]:gap-9 max-[680px]:px-6 max-[680px]:py-9">
         <div>
-          <Image src="/icons/logo.svg" alt="AMINOCLUB" width={400} height={81} />
+          <Image src={logoUrl} alt="AMINOCLUB" width={400} height={81} />
           <p className="my-6 max-w-[330px] text-base leading-[1.55] text-[#4b5258]">
             AMINOCLUB — ваш надёжный партнёр в мире спортивного питания. Чистые составы, эффективные формулы и честный подход к вашему прогрессу.
           </p>
@@ -44,23 +50,26 @@ export default function Footer() {
         </div>
         <div className="flex flex-col items-start max-[1050px]:col-span-full">
           <h2 className="mb-[18px] text-[17px] font-bold">Свяжитесь с нами</h2>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="tel:88001234567">
-            <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />8 (800) 123-45-67
+          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={`tel:${phoneHref}`}>
+            <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />{settings.general.phone}
           </a>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href="mailto:info@aminoclub.ru">
+          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={`mailto:${settings.general.email}`}>
             <Image src="/icons/footer/mail.svg" alt="" width={25} height={25} />
-            info@aminoclub.ru
+            {settings.general.email}
           </a>
           <div className="mt-2 flex gap-3">
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="ВКонтакте">
-              <Image src="/icons/footer/vk.svg" alt="" width={24} height={24} />
-            </a>
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="Telegram">
-              <Image src="/icons/footer/telegram.svg" alt="" width={24} height={24} />
-            </a>
-            <a className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]" href="#" aria-label="Instagram">
-              <Image src="/icons/footer/instagram.svg" alt="" width={24} height={24} />
-            </a>
+            {settings.general.socialLinks.map((social) => (
+              <a
+                key={social.id}
+                className="grid size-[52px] place-items-center rounded-full border border-[#e2e4e0] bg-[#fff1dd]"
+                href={social.url}
+                aria-label={social.label}
+                target={social.url.startsWith("http") ? "_blank" : undefined}
+                rel={social.url.startsWith("http") ? "noreferrer" : undefined}
+              >
+                {social.iconUrl ? <Image src={resolveMediaUrl(social.iconUrl)} alt="" width={24} height={24} /> : <span className="text-sm font-bold">{social.label.slice(0, 1)}</span>}
+              </a>
+            ))}
           </div>
         </div>
       </div>
