@@ -59,13 +59,13 @@ export default function AdminImageDropzone({
         <span className="mt-3 text-sm font-semibold text-slate-800">
           {isUploading ? "Оптимизируем и загружаем…" : "Перетащите изображение сюда"}
         </span>
-        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF · до 10 МБ</span>
+        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF, SVG · до 10 МБ</span>
         <span className="mt-1 text-xs text-slate-400">Файл автоматически сохранится в WebP</span>
       </label>
       <input
         id={inputId}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+        accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml"
         multiple={multiple}
         disabled={isUploading}
         onChange={(event) => {

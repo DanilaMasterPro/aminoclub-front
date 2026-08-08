@@ -38,7 +38,7 @@ function Shell({ user, children }: { user: AuthUser; children: React.ReactNode }
         <nav className="flex-1 overflow-y-auto p-3">
           {nav.map(([label, href]) => {
             const active = href === "/admin" ? pathname === href : pathname.startsWith(href);
-            return <Link key={href} href={href} onClick={() => setOpen(false)} className={`mb-1 block rounded-lg px-3 py-2.5 text-sm ${active ? "bg-[#009d0a] font-semibold" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}>{label}</Link>;
+            return <Link key={href} href={href} onClick={() => setOpen(false)} className={`mb-1 block rounded-lg px-3 py-2.5 text-sm ${active ? "bg-[#009d0a] font-semibold text-white" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}>{label}</Link>;
           })}
           <div className="mt-1">
             <Link href="/admin/settings" onClick={() => setOpen(false)} className={`block rounded-lg px-3 py-2.5 text-sm ${pathname.startsWith("/admin/settings") ? "font-semibold text-white" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}>
