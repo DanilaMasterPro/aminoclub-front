@@ -58,3 +58,5 @@ export function usePromoCode(subtotal: number) {
 
   return { code, setCode, promo, isApplying, error, apply, clearPromo };
 }
+
+export type PromoCodeState = ReturnType<typeof usePromoCode>;
