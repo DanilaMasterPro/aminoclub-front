@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import AdminReferralScreen from "@/screens/admin/AdminReferralScreen";
 import AdminMenuSettingsScreen from "@/screens/admin/AdminMenuSettingsScreen";
+import AdminOrderScreen from "@/screens/admin/AdminOrderScreen";
 import AdminResourceFormScreen from "@/screens/admin/AdminResourceFormScreen";
 import AdminResourceListScreen from "@/screens/admin/AdminResourceListScreen";
 import AdminSettingsScreen from "@/screens/admin/AdminSettingsScreen";
@@ -31,5 +32,6 @@ export default async function AdminResourcePage({ params }: PageProps<"/admin/[.
   if (id === "new") return <AdminResourceFormScreen resource={resource} />;
   if (resource === "trainer-applications") return <AdminTrainerApplicationScreen id={id} />;
   if (resource === "trainers") return <AdminTrainerScreen id={id} />;
+  if (resource === "orders") return <AdminOrderScreen id={id} />;
   return <AdminResourceFormScreen resource={resource} id={id} />;
 }

@@ -115,12 +115,57 @@ export interface AppliedPromo {
   trainerId: string | null;
 }
 
+export type DeliveryMethod = "PICKUP_POINT" | "COURIER";
+
+export interface DeliveryAddress {
+  street: string;
+  house: string;
+  apartment?: string;
+  porch?: string;
+  floor?: string;
+  intercom?: string;
+  postalCode?: string;
+}
+
+export interface DeliveryPayload {
+  method: DeliveryMethod;
+  city: string;
+  geoId?: number;
+  pickupPointId?: string;
+  address?: DeliveryAddress;
+}
+
+export interface DeliveryLocation {
+  geoId: number;
+  address: string;
+}
+
+export interface PickupPoint {
+  id: string;
+  name: string;
+  operator: string;
+  type: string;
+  address: string;
+  instruction: string | null;
+  schedule: string;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+export interface DeliveryQuote {
+  method: DeliveryMethod;
+  amount: string;
+  deliveryDays: number | null;
+  address: string;
+  pickupPointName: string | null;
+  isEstimate: boolean;
+}
+
 export interface CheckoutPayload {
   name: string;
   phone: string;
   email: string;
-  city?: string;
-  address?: string;
+  delivery: DeliveryPayload;
   comment?: string;
   promoCode?: string;
   referralCode?: string;
@@ -130,6 +175,24 @@ export interface CheckoutPayload {
 export interface CheckoutResult {
   order: { id: string; number: string; finalAmount: string };
   payment: { id: string; confirmationUrl: string | null };
+}
+
+export type PaymentStatus = "PENDING" | "WAITING_FOR_CAPTURE" | "SUCCEEDED" | "CANCELED";
+
+export interface PublicOrderStatus {
+  id: string;
+  number: string;
+  status: string;
+  finalAmount: string;
+  deliveryAmount: string;
+  paymentStatus: PaymentStatus | null;
+  delivery: {
+    method: DeliveryMethod;
+    address: string;
+    pickupPointName: string | null;
+    deliveryDays: number | null;
+    trackingUrl: string | null;
+  } | null;
 }
 
 export interface TrainerDashboard {

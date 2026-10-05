@@ -1,3 +1,5 @@
+import { orderStatusLabels } from "./order-labels";
+
 export type FieldType = "text" | "textarea" | "number" | "checkbox" | "select" | "date" | "image" | "image-list" | "file-list" | "certificate-list" | "tags";
 
 export interface ResourceField {
@@ -35,6 +37,10 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       { name: "sku", label: "Артикул", required: true }, { name: "categoryId", label: "ID категории", required: true },
       { name: "flavor", label: "Вкус" }, { name: "price", label: "Цена, ₽", type: "number", required: true },
       { name: "stockQuantity", label: "Остаток", type: "number", required: true },
+      { name: "weightGrams", label: "Вес в упаковке, г", type: "number" },
+      { name: "lengthCm", label: "Длина, см", type: "number" },
+      { name: "widthCm", label: "Ширина, см", type: "number" },
+      { name: "heightCm", label: "Высота, см", type: "number" },
       { name: "description", label: "Описание", type: "textarea", required: true },
       { name: "images", label: "Изображения", type: "file-list" },
       { name: "isActive", label: "Опубликован", type: "checkbox" },
@@ -56,8 +62,8 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
   },
   orders: {
     title: "Заказы", singular: "заказ", endpoint: "/admin/orders", searchable: true, editable: true,
-    statusFilter: ["NEW", "AWAITING_PAYMENT", "PAID", "PROCESSING", "PACKING", "SHIPPED", "COMPLETED", "CANCELLED"].map((value) => ({ label: value, value })),
-    columns: [{ key: "number", label: "Номер" }, { key: "customerName", label: "Покупатель" }, { key: "finalAmount", label: "Сумма" }, { key: "status", label: "Статус" }, { key: "createdAt", label: "Дата" }],
+    statusFilter: Object.entries(orderStatusLabels).map(([value, label]) => ({ label, value })),
+    columns: [{ key: "number", label: "Номер" }, { key: "customerName", label: "Покупатель" }, { key: "finalAmount", label: "Сумма" }, { key: "status", label: "Статус" }, { key: "shipment.status", label: "Доставка" }, { key: "createdAt", label: "Дата" }],
     fields: [{ name: "adminComment", label: "Внутренний комментарий", type: "textarea" }],
   },
   trainers: {

@@ -9,11 +9,13 @@ import { formatPrice } from "@/utils/formatPrice";
 type CartSummaryProps = {
   promo: PromoCodeState;
   variant?: "cart" | "checkout";
+  delivery?: { amount: number | null; isLoading: boolean };
 };
 
-export default function CartSummary({ promo, variant = "cart" }: CartSummaryProps) {
+export default function CartSummary({ promo, variant = "cart", delivery }: CartSummaryProps) {
   const { items, subtotal } = useCart();
-  const total = promo.promo ? Number(promo.promo.finalAmount) : subtotal;
+  const goodsTotal = promo.promo ? Number(promo.promo.finalAmount) : subtotal;
+  const total = goodsTotal + (delivery?.amount ?? 0);
   const isCheckout = variant === "checkout";
 
   return (
@@ -36,7 +38,13 @@ export default function CartSummary({ promo, variant = "cart" }: CartSummaryProp
         {promo.error && <p className="mt-2 text-xs text-red-600">{promo.error}</p>}
         {promo.promo && <p className="mt-2 text-xs text-[#009d0a]">Скидка {formatPrice(promo.promo.discountAmount)}</p>}
       </div>
-      <div className="mt-8 flex justify-between border-t border-black/30 pt-6 text-sm"><span>Итого</span><strong>{formatPrice(total)}</strong></div>
+      {delivery && (
+        <div className="mt-8 flex justify-between border-t border-black/30 pt-6 text-sm">
+          <span>Доставка</span>
+          <strong>{delivery.amount !== null ? formatPrice(delivery.amount) : delivery.isLoading ? "…" : "—"}</strong>
+        </div>
+      )}
+      <div className={`${delivery ? "mt-4" : "mt-8 border-t border-black/30 pt-6"} flex justify-between text-sm`}><span>Итого</span><strong>{formatPrice(total)}</strong></div>
       {!isCheckout && (
         <Link href="/checkout" className="mt-10 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#009d0a] px-6 text-sm font-semibold text-white">
           Оформить
