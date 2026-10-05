@@ -11,6 +11,7 @@ const titles = {
   failed: "Оплата не прошла",
   cancelled: "Заказ отменён",
   unknown: "Спасибо за заказ",
+  missing: "Статус заказа",
 } as const;
 
 type OrderResultProps = { orderId?: string; orderNumber?: string; isDemo?: boolean; isFailed?: boolean };
@@ -36,6 +37,7 @@ export default function OrderResult({ orderId, orderNumber, isDemo, isFailed }: 
         {state === "pending" && !pendingTimedOut && <p>Банк ещё подтверждает платёж. Страница обновится автоматически.</p>}
         {pendingTimedOut && <p>Подтверждение оплаты задерживается. Если деньги списаны, заказ обновится сам — мы пришлём письмо. Если вы не завершили оплату, можно попробовать ещё раз.</p>}
         {state === "failed" && <p>Платёж был отклонён или отменён. Деньги не списаны — попробуйте оплатить заказ ещё раз.</p>}
+        {state === "missing" && <p>В ссылке нет номера заказа. Подтверждение оплаты и детали заказа приходят на электронную почту, указанную при оформлении.</p>}
         {state === "cancelled" && <p>Время на оплату истекло, и заказ был отменён. Оформите его заново — товары ждут в каталоге.</p>}
         {isDemo && state !== "paid" && <p className="text-sm">Демо-режим: платёжный шлюз не подключён, оплата не проводилась.</p>}
       </div>
@@ -51,7 +53,7 @@ export default function OrderResult({ orderId, orderNumber, isDemo, isFailed }: 
 
       {retryError && <p role="alert" className="mt-6 text-sm text-red-600">{retryError}</p>}
       <div className="mt-10 flex flex-wrap justify-center gap-3">
-        {(state === "failed" || pendingTimedOut) && (
+        {orderId && (state === "failed" || pendingTimedOut) && (
           <button type="button" onClick={() => void retryPayment()} disabled={isRetrying} className="inline-flex min-h-12 min-w-[260px] items-center justify-center rounded-xl bg-[#009d0a] px-7 font-semibold text-white disabled:opacity-60">
             {isRetrying ? "Переходим к оплате…" : "Оплатить ещё раз"}
           </button>

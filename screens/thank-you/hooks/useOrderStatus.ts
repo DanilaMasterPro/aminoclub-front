@@ -7,7 +7,7 @@ import type { PublicOrderStatus } from "@/api/types";
 const POLL_INTERVAL = 3_000;
 const POLL_LIMIT = 20;
 
-export type OrderPaymentState = "loading" | "paid" | "pending" | "failed" | "cancelled" | "unknown";
+export type OrderPaymentState = "loading" | "paid" | "pending" | "failed" | "cancelled" | "unknown" | "missing";
 
 function paymentState(order: PublicOrderStatus | null, returnedFromFail: boolean): OrderPaymentState {
   if (!order) return "loading";
@@ -25,7 +25,10 @@ export function useOrderStatus(orderId?: string, returnedFromFail = false) {
   const [isRetrying, setIsRetrying] = useState(false);
   const [retryError, setRetryError] = useState("");
 
-  const state = loadError ? "unknown" : paymentState(order, returnedFromFail);
+  // Opened without an order id (e.g. typed by hand): nothing to poll.
+  const state: OrderPaymentState = !orderId
+    ? returnedFromFail ? "failed" : "missing"
+    : loadError ? "unknown" : paymentState(order, returnedFromFail);
   const shouldPoll = Boolean(orderId) && (state === "loading" || state === "pending") && attempts < POLL_LIMIT;
 
   useEffect(() => {
