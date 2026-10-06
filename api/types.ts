@@ -36,6 +36,9 @@ export interface CatalogProduct {
   sku?: string;
   description: string;
   flavor: string | null;
+  characteristics?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
   price: string;
   stockQuantity: number;
   category: CatalogCategory;

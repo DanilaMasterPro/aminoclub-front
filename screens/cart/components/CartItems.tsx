@@ -5,6 +5,8 @@ import Link from "next/link";
 import { resolveProductImageUrl } from "@/api/catalog";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
+import { stripHtml } from "@/utils/stripHtml";
+import { truncateText } from "@/utils/truncateText";
 
 export default function CartItems() {
   const { items, removeItem, setQuantity } = useCart();
@@ -19,7 +21,7 @@ export default function CartItems() {
             </Link>
             <div>
               <Link href={`/catalog/${product.slug}`} className="text-[22px] font-medium">{product.title}</Link>
-              <p className="mt-4 max-w-[390px] text-sm leading-6 text-[#747978]">{product.description}</p>
+              <p className="mt-4 max-w-[390px] text-sm leading-6 text-[#747978]">{truncateText(stripHtml(product.description), 160)}</p>
               <p className="mt-4 text-sm">{product.flavor || "Без вкуса"}</p>
             </div>
             <div className="flex min-w-[190px] flex-col items-end gap-6 max-[800px]:col-span-2 max-[800px]:min-w-0 max-[800px]:flex-row max-[800px]:items-center max-[800px]:justify-end">

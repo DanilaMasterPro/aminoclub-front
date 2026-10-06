@@ -85,7 +85,7 @@ export default function AdminResourceField({ field, value, categories, onChange,
           {categories.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}
         </select>
       ) : field.type === "textarea" ? (
-        <textarea required={field.required} rows={field.name === "content" || field.name === "description" ? 10 : 4} value={String(value ?? "")} onChange={(event) => onChange(event.target.value)} className={inputClassName} />
+        <textarea required={field.required} rows={["content", "description", "characteristics"].includes(field.name) ? 10 : 4} value={String(value ?? "")} onChange={(event) => onChange(event.target.value)} className={inputClassName} />
       ) : field.type === "select" ? (
         <select required={field.required} value={String(value ?? "")} onChange={(event) => onChange(event.target.value)} className={inputClassName}>
           {field.options?.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
