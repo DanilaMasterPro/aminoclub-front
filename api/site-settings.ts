@@ -1,10 +1,11 @@
 import { cache } from "react";
+import { serverApiUrl } from "./server-api-url";
 import type { CmsPage, SiteSettings } from "./types";
 
 export const defaultSiteSettings: SiteSettings = {
   general: {
     phone: "8 (800) 123-45-67",
-    email: "info@aminoclub.ru",
+    email: "info@aminoclub.spb.ru",
     logoUrl: "/icons/logo.svg",
     socialLinks: [
       { id: "vk", label: "ВКонтакте", url: "#", iconUrl: "/icons/footer/vk.svg" },
@@ -38,7 +39,7 @@ export const defaultSiteSettings: SiteSettings = {
   },
 };
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = serverApiUrl;
 
 export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   if (!apiUrl) return defaultSiteSettings;

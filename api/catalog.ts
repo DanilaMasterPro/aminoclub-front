@@ -1,5 +1,6 @@
 import api from "./client";
 import { cache } from "react";
+import { serverApiUrl } from "./server-api-url";
 import type { CatalogProduct, Paginated } from "./types";
 
 export async function getCatalogProducts(signal?: AbortSignal) {
@@ -12,10 +13,9 @@ export async function getCatalogProducts(signal?: AbortSignal) {
 }
 
 export const getCatalogProduct = cache(async (slug: string): Promise<CatalogProduct | null> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) return null;
+  if (!serverApiUrl) return null;
   try {
-    const response = await fetch(`${apiUrl}/products/${encodeURIComponent(slug)}`, { cache: "no-store" });
+    const response = await fetch(`${serverApiUrl}/products/${encodeURIComponent(slug)}`, { cache: "no-store" });
     if (!response.ok) return null;
     return await response.json() as CatalogProduct;
   } catch {

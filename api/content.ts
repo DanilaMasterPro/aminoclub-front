@@ -1,7 +1,8 @@
 import { cache } from "react";
+import { serverApiUrl } from "./server-api-url";
 import type { CmsArticle } from "./types";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = serverApiUrl;
 
 export const getArticles = cache(async (): Promise<CmsArticle[]> => {
   if (!apiUrl) return [];
