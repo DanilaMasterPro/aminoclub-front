@@ -32,7 +32,7 @@ export default function CartSummary({ promo, variant = "cart", delivery }: CartS
       <div className="mt-8 border-t border-black/30 pt-6">
         <label className="text-xs font-semibold uppercase" htmlFor={`promo-${variant}`}>Промокод</label>
         <div className="mt-3 flex gap-2">
-          <input id={`promo-${variant}`} value={promo.code} onChange={(event) => promo.setCode(event.target.value.toUpperCase())} disabled={Boolean(promo.promo)} placeholder="AMINO10" className="min-w-0 flex-1 rounded-xl bg-white px-4 py-3 text-sm outline-none" />
+          <input id={`promo-${variant}`} value={promo.code} onChange={(event) => promo.setCode(event.target.value.toUpperCase())} disabled={Boolean(promo.promo)} className="min-w-0 flex-1 rounded-xl bg-white px-4 py-3 text-sm outline-none" />
           <button type="button" onClick={promo.promo ? promo.clearPromo : promo.apply} disabled={promo.isApplying} className="rounded-xl bg-[#15191a] px-4 text-xs text-white disabled:opacity-60">{promo.promo ? "Убрать" : "Применить"}</button>
         </div>
         {promo.error && <p className="mt-2 text-xs text-red-600">{promo.error}</p>}

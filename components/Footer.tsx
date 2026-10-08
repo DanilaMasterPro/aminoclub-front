@@ -1,3 +1,4 @@
+import { telHref } from "@/utils/phone";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/api/media";
 import { getSiteSettings } from "@/api/site-settings";
@@ -16,7 +17,7 @@ export default async function Footer() {
   const settings = await getSiteSettings();
   const footerLinks = groupFooterLinks(settings.menus.footer);
   const logoUrl = resolveMediaUrl(settings.general.logoUrl || "/icons/logo.svg");
-  const phoneHref = settings.general.phone.replace(/[^\d+]/g, "");
+  const phoneHref = telHref(settings.general.phone);
 
   return (
     <footer className="overflow-hidden rounded-[28px] bg-[#f8f8f8] bg-[url('/images/footer.png')] bg-cover bg-center max-[680px]:rounded-[20px]">
@@ -50,7 +51,7 @@ export default async function Footer() {
         </div>
         <div className="flex flex-col items-start max-[1050px]:col-span-full">
           <h2 className="mb-[18px] text-[17px] font-bold">Свяжитесь с нами</h2>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={`tel:${phoneHref}`}>
+          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={phoneHref}>
             <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />{settings.general.phone}
           </a>
           <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={`mailto:${settings.general.email}`}>
