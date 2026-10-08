@@ -36,7 +36,8 @@ export function useCatalogFilters(products: CatalogProduct[], initialCategory = 
       ? Number(left.price) - Number(right.price)
       : sort === "price-desc"
         ? Number(right.price) - Number(left.price)
-        : right.id.localeCompare(left.id)), [categoryProducts, flavor, maxPrice, sort]);
+        // «Сначала новые»: categories in their admin order (Протеин first), newest first inside a category.
+        : left.category.sortOrder - right.category.sortOrder || right.id.localeCompare(left.id)), [categoryProducts, flavor, maxPrice, sort]);
 
   return { category, setCategory, flavor, setFlavor, maxPrice, setMaxPrice, sort, setSort, categories, flavors, ceiling, visibleProducts };
 }
