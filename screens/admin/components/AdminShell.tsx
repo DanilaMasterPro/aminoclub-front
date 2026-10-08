@@ -14,7 +14,7 @@ const nav = [
   ["Заявки тренеров", "/admin/trainer-applications"], ["Промокоды", "/admin/promo-codes"],
   ["Реферальная статистика", "/admin/referral"], ["Выплаты", "/admin/payouts"],
   ["Страницы", "/admin/pages"], ["Новости", "/admin/articles"],
-  ["Баннеры", "/admin/banners"],
+  // «Баннеры» (/admin/banners) hidden: the storefront does not show banners yet.
 ] as const;
 
 const settingsNav = [
