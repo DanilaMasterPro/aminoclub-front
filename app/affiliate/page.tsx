@@ -9,6 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Партнёрская программа — AMINOCLUB",
     description: "Партнёрская программа AMINOCLUB для тренеров и спортивных экспертов.",
     imageUrl: "/images/affiliate-hero-v1.png",
+    path: "/affiliate",
   }, seo);
 }
 

@@ -12,7 +12,7 @@ export default function RelatedProducts({ productId }: { productId: string }) {
   const related = products.filter((product) => product.id !== productId).slice(0, 8);
   if (!related.length) return null;
   return (
-    <section className="py-[120px] max-[700px]:py-20">
+    <section className="page-gutter py-[120px] max-[700px]:py-20">
       <div className="mb-12 flex items-center justify-between gap-6">
         <h2 className="font-[family-name:var(--font-helvetica-neue)] text-[38px] font-normal tracking-[-0.03em]">Другие товары</h2>
         {!slider.isLocked && (

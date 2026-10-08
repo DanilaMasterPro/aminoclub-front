@@ -29,7 +29,7 @@ export default function Products() {
   );
 
   return (
-    <section id="catalog" className="px-[1%] max-[600px]:px-0" aria-label="Каталог продуктов">
+    <section id="catalog" className="page-gutter" aria-label="Каталог продуктов">
       <div data-fade-up className="mb-[58px] flex flex-wrap gap-3.5 max-[600px]:mb-[30px] max-[600px]:flex-nowrap max-[600px]:overflow-x-auto max-[600px]:pb-1" role="tablist" aria-label="Категории товаров">
         {tabs.map((tab) => {
           const isActive = tab.id === activeCategory;

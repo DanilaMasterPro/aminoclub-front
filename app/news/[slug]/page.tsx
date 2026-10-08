@@ -7,7 +7,9 @@ import ArticleScreen from "@/screens/article/ArticleScreen";
 export async function generateMetadata({ params }: PageProps<"/news/[slug]">): Promise<Metadata> {
   const slug = (await params).slug;
   const article = await getArticle(slug) || getMockArticle(slug);
-  return article ? { title: article.seoTitle || article.title, description: article.seoDescription || article.excerpt } : {};
+  return article
+    ? { title: article.seoTitle || article.title, description: article.seoDescription || article.excerpt, alternates: { canonical: `/news/${article.slug}` } }
+    : {};
 }
 
 export default async function ArticlePage({ params }: PageProps<"/news/[slug]">) {

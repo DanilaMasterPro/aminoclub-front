@@ -43,8 +43,8 @@ export default function ProductGallery({ product }: { product: CatalogProduct })
     // Desktop: the gallery sticks while the description scrolls and stops at the end of the product section
     // (the grid row is its containing block). The square is capped by the viewport height so it always fits.
     <div className="min-w-0 self-start min-[1001px]:sticky min-[1001px]:top-8">
-      <div className="mx-auto w-full max-w-[min(100%,calc(100svh-220px))] max-[1000px]:max-w-[720px]">
-      <p className="mb-5 pl-4 text-xs text-[#646a69]">Артикул: {product.sku || product.id.slice(-8).toUpperCase()}</p>
+      <div className="mx-auto w-full max-[1000px]:max-w-[720px]">
+      <p className="mb-5 text-xs text-[#646a69]">Артикул: {product.sku || product.id.slice(-8).toUpperCase()}</p>
       <div className="relative">
       <Swiper onSwiper={setSwiper} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} className="overflow-hidden rounded-[20px] bg-white">
         {images.map((image, index) => (

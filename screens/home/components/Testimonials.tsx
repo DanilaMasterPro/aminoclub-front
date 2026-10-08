@@ -7,7 +7,7 @@ import TestimonialCard from "./TestimonialCard";
 
 export default function Testimonials() {
   return (
-    <section className="relative" aria-label="Отзывы покупателей">
+    <section className="page-gutter relative" aria-label="Отзывы покупателей">
       <Swiper
         spaceBetween={34}
         slidesPerView={1}

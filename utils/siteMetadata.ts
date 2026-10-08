@@ -7,6 +7,8 @@ type LocalSeo = {
   description?: string | null;
   keywords?: string[] | null;
   imageUrl?: string | null;
+  /** Page path for the canonical URL, e.g. "/catalog". Resolved against metadataBase. */
+  path?: string;
 };
 
 export function buildSiteMetadata(local: LocalSeo, global: SiteSettings["seo"]): Metadata {
@@ -20,9 +22,11 @@ export function buildSiteMetadata(local: LocalSeo, global: SiteSettings["seo"]):
     title,
     description,
     keywords,
+    ...(local.path ? { alternates: { canonical: local.path } } : {}),
     openGraph: {
       title,
       description,
+      ...(local.path ? { url: local.path } : {}),
       siteName: "AMINOCLUB",
       locale: "ru_RU",
       type: "website",

@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
     description: page.seoDescription,
     keywords: page.seoKeywords,
     imageUrl: page.imageUrls[0],
+    path: `/${page.slug}`,
   }, settings.seo);
 }
 

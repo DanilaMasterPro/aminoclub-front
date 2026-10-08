@@ -1,4 +1,8 @@
+import type { Metadata } from "next";
 import ThankYouScreen from "@/screens/thank-you/ThankYouScreen";
+
+// Service page: not for search engines.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 const single = (value: string | string[] | undefined) => (typeof value === "string" ? value : undefined);
 

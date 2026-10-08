@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Header from "@/components/Header";
 import Image from "next/image";
-import Link from "next/link";
 import AffiliateApplicationForm from "./components/AffiliateApplicationForm";
 
 const benefits = [
@@ -15,10 +15,8 @@ export default function AffiliateScreen() {
     <main id="top" className="mx-auto my-7 w-[min(100%_-_56px,_1920px)] max-[600px]:my-3 max-[600px]:w-[min(100%_-_24px,_1920px)]">
       <div className="relative">
         <Header homeHref="/" catalogHref="/#catalog" />
-        <section data-fade-up className="px-4 pt-[190px] pb-16 max-[1200px]:pt-40 max-[600px]:px-2 max-[600px]:pt-28 max-[600px]:pb-10">
-          <nav className="flex items-center gap-2 text-xs text-[#747978]" aria-label="Хлебные крошки">
-            <Link href="/" className="hover:text-[#15191a]">Главная</Link><span>/</span><span>Партнёрская программа</span>
-          </nav>
+        <section data-fade-up className="page-gutter pt-[190px] pb-16 max-[1200px]:pt-40 max-[600px]:pt-28 max-[600px]:pb-10">
+          <Breadcrumbs items={[{ label: "Партнёрская программа", href: "/affiliate" }]} />
           <h1 className="mt-12 max-w-[980px] font-[family-name:var(--font-helvetica-neue)] text-[64px] leading-[0.98] font-normal tracking-[-0.035em] max-[1000px]:text-[52px] max-[600px]:mt-8 max-[600px]:text-[38px]">
             Развивайте бизнес вместе с AMINOCLUB
           </h1>

@@ -3,13 +3,16 @@
 import { useCatalogProducts } from "@/hooks/useCatalogProducts";
 import CatalogFilters from "./CatalogFilters";
 import CatalogGrid from "./CatalogGrid";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { useCatalogFilters } from "../hooks/useCatalogFilters";
 
-export default function CatalogContent() {
+export default function CatalogContent({ initialCategory }: { initialCategory?: string }) {
   const { products, isLoading, error, reload } = useCatalogProducts();
-  const filters = useCatalogFilters(products);
+  const filters = useCatalogFilters(products, initialCategory);
+  const activeCategory = filters.categories.find((item) => item.slug === filters.category);
   return (
-    <section className="px-7 pb-[120px] max-[600px]:px-1">
+    <section className="page-gutter pb-[120px]">
+      <Breadcrumbs className="mb-10" items={[{ label: "Каталог", href: "/catalog" }, ...(activeCategory ? [{ label: activeCategory.title, href: `/catalog?category=${activeCategory.slug}` }] : [])]} />
       <div className="mb-10 ml-[300px] flex items-end justify-between border-b border-black/30 pb-5 max-[900px]:ml-0 max-[700px]:items-start max-[700px]:gap-5">
         <div className="flex gap-10 overflow-x-auto text-base max-[600px]:gap-5">
           <button type="button" onClick={() => filters.setCategory("all")} className={filters.category === "all" ? "text-[#15191a]" : "text-[#a9acaa]"}>Все</button>

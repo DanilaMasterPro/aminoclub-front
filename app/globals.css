@@ -7,6 +7,17 @@
   --font-helvetica-neue: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/* Horizontal page gutter: inner pages line up with the header logo (Header uses the same paddings). */
+@utility page-gutter {
+  padding-inline: 58px;
+  @media (max-width: 1200px) {
+    padding-inline: 40px;
+  }
+  @media (max-width: 600px) {
+    padding-inline: 18px;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

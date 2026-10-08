@@ -6,13 +6,15 @@ import { useCart } from "@/hooks/useCart";
 import { usePromoCode } from "@/hooks/usePromoCode";
 import CartItems from "./CartItems";
 import CartSummary from "@/components/CartSummary";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function CartContent() {
   const { items, subtotal, isReady } = useCart();
   const promo = usePromoCode(subtotal);
 
   return (
-    <section className="min-h-[760px] px-3 pb-[120px] max-[600px]:pb-20">
+    <section className="page-gutter min-h-[760px] pb-[120px] max-[600px]:pb-20">
+      <Breadcrumbs className="mb-8" items={[{ label: "Корзина", href: "/cart" }]} />
       <h1 className="font-[family-name:var(--font-helvetica-neue)] text-[64px] font-normal tracking-[-0.045em] max-[600px]:text-[44px]">Корзина</h1>
       <Link href="/catalog" className="mt-5 inline-flex items-center gap-1.5 text-xs text-[#5f6564]">
         <Image src="/icons/chevron-left.svg" alt="" width={16} height={16} />

@@ -1,7 +1,7 @@
 import api from "./client";
 import { cache } from "react";
 import { serverApiUrl } from "./server-api-url";
-import type { CatalogProduct, Paginated } from "./types";
+import type { CatalogCategory, CatalogProduct, Paginated } from "./types";
 
 export async function getCatalogProducts(signal?: AbortSignal) {
   const { data } = await api.get<Paginated<CatalogProduct>>("/products", {
@@ -32,3 +32,16 @@ export function resolveProductImageUrl(url: string) {
     return url;
   }
 }
+
+export type CatalogCategoryInfo = CatalogCategory & { seoTitle: string | null; seoDescription: string | null; description: string | null };
+
+/** Server-side category list (SEO metadata of the catalog page). */
+export const getCatalogCategories = cache(async (): Promise<CatalogCategoryInfo[]> => {
+  if (!serverApiUrl) return [];
+  try {
+    const response = await fetch(`${serverApiUrl}/categories`, { cache: "no-store" });
+    return response.ok ? ((await response.json()) as CatalogCategoryInfo[]) : [];
+  } catch {
+    return [];
+  }
+});

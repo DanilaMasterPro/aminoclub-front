@@ -1,14 +1,14 @@
-import Link from "next/link";
 import PublicPageShell from "@/components/PublicPageShell";
 import { getSiteSettings } from "@/api/site-settings";
 import ContactForm from "./components/ContactForm";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default async function ContactsScreen() {
   const settings = await getSiteSettings();
   return (
     <PublicPageShell>
-      <section className="px-6 pb-[140px] max-[600px]:px-1 max-[600px]:pb-20">
-        <nav className="text-xs text-[#666b6a]"><Link href="/">Главная</Link> &nbsp;/&nbsp; Контакты</nav>
+      <section className="page-gutter pb-[140px] max-[600px]:pb-20">
+        <Breadcrumbs items={[{ label: "Контакты", href: "/contacts" }]} />
         <div className="mt-[180px] grid grid-cols-2 gap-24 max-[900px]:mt-24 max-[900px]:grid-cols-1 max-[900px]:gap-16">
           <div>
             <h1 className="font-[family-name:var(--font-helvetica-neue)] text-[62px] font-normal tracking-[-0.045em] max-[600px]:text-[44px]">Есть <span className="text-[#aeb0ae]">вопрос?</span></h1>

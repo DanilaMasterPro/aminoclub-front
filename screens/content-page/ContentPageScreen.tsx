@@ -1,9 +1,9 @@
 import { resolveMediaUrl } from "@/api/media";
 import type { CmsPage } from "@/api/types";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function ContentPageScreen({ page }: { page: CmsPage }) {
   const imageUrl = page.imageUrls[0];
@@ -12,10 +12,8 @@ export default function ContentPageScreen({ page }: { page: CmsPage }) {
     <main id="top" className="mx-auto my-7 w-[min(100%_-_56px,_1920px)] max-[600px]:my-3 max-[600px]:w-[min(100%_-_24px,_1920px)]">
       <div className="relative rounded-[28px] bg-[#f8f8f8] max-[680px]:rounded-[20px]">
         <Header homeHref="/" catalogHref="/#catalog" />
-        <section className="px-8 pt-[190px] pb-16 max-[1200px]:pt-40 max-[600px]:px-5 max-[600px]:pt-28 max-[600px]:pb-10">
-          <nav className="flex items-center gap-2 text-xs text-[#747978]" aria-label="Хлебные крошки">
-            <Link href="/" className="hover:text-[#15191a]">Главная</Link><span>/</span><span>{page.title}</span>
-          </nav>
+        <section className="page-gutter pt-[190px] pb-16 max-[1200px]:pt-40 max-[600px]:pt-28 max-[600px]:pb-10">
+          <Breadcrumbs items={[{ label: page.title, href: `/${page.slug}` }]} />
           <h1 className="mt-12 max-w-[1000px] font-[family-name:var(--font-helvetica-neue)] text-[64px] leading-[0.98] font-normal tracking-[-0.035em] max-[1000px]:text-[52px] max-[600px]:mt-8 max-[600px]:text-[38px]">
             {page.heading}
           </h1>
