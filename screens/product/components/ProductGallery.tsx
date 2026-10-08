@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import { resolveProductImageUrl } from "@/api/catalog";
 import { isVideoUrl, resolveMediaUrl } from "@/api/media";
 import type { CatalogProduct } from "@/api/types";
+import { SliderArrow, SliderDots } from "@/components/SliderControls";
 import { useProductGallery } from "../hooks/useProductGallery";
 
 /** Plays muted and looped only while its slide is active, so hidden slides do not download. */
@@ -47,7 +45,8 @@ export default function ProductGallery({ product }: { product: CatalogProduct })
     <div className="min-w-0 self-start min-[1001px]:sticky min-[1001px]:top-8">
       <div className="mx-auto w-full max-w-[min(100%,calc(100svh-220px))] max-[1000px]:max-w-[720px]">
       <p className="mb-5 pl-4 text-xs text-[#646a69]">Артикул: {product.sku || product.id.slice(-8).toUpperCase()}</p>
-      <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} onSwiper={setSwiper} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} className="overflow-hidden rounded-[20px] bg-white">
+      <div className="relative">
+      <Swiper onSwiper={setSwiper} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} className="overflow-hidden rounded-[20px] bg-white">
         {images.map((image, index) => (
           <SwiperSlide key={image.id}>
             <div className="relative aspect-square">
@@ -60,6 +59,17 @@ export default function ProductGallery({ product }: { product: CatalogProduct })
           </SwiperSlide>
         ))}
       </Swiper>
+      {images.length > 1 && (
+        <>
+          <SliderArrow direction="prev" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0} className="absolute top-1/2 left-4 z-10 -translate-y-1/2 max-[600px]:left-2" />
+          <SliderArrow direction="next" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === images.length - 1} className="absolute top-1/2 right-4 z-10 -translate-y-1/2 max-[600px]:right-2" />
+          {/* Hidden on a video slide: the player controls live at the bottom. */}
+          {!isVideoUrl(images[activeIndex]?.url ?? "") && (
+            <SliderDots count={images.length} active={activeIndex} onSelect={goTo} className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-white/85 px-3 py-2 shadow-[0_3px_15px_rgba(0,0,0,.06)] backdrop-blur" />
+          )}
+        </>
+      )}
+      </div>
       {images.length > 1 && (
         <div className="mt-4 flex gap-3 overflow-x-auto">
           {images.map((image, index) => (
