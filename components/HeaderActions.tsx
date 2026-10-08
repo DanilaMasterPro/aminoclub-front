@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { MenuItemSetting, SocialLinkSetting } from "@/api/types";
 import { resolveMediaUrl } from "@/api/media";
 import { useCart } from "@/hooks/useCart";
+import { setScrollLocked } from "@/utils/scrollLock";
 
 type HeaderActionsProps = {
   cartHref: string;
@@ -28,14 +29,13 @@ export default function HeaderActions({ cartHref, logoUrl, menuItems, socialLink
 
   useEffect(() => {
     if (!isOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    setScrollLocked(true);
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsOpen(false);
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      setScrollLocked(false);
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isOpen]);
@@ -58,12 +58,18 @@ export default function HeaderActions({ cartHref, logoUrl, menuItems, socialLink
       </nav>
 
       <div className={`fixed inset-0 z-[100] bg-[#f5f3ed] transition duration-300 ${isOpen ? "visible opacity-100" : "invisible opacity-0"}`} role="dialog" aria-modal="true" aria-label="Меню сайта">
-        <div className="flex h-full min-h-[520px] flex-col px-[58px] py-[50px] max-[600px]:px-5 max-[600px]:py-5">
+        {/* Same offsets as the page header (page margin + header padding), so the logo and the close button
+            stay exactly where the logo and the burger were: 28+58 / 28+40 / 12+18 px; centred above 1976px like <main>. */}
+        <div className="flex h-full min-h-[520px] flex-col px-[max(86px,calc((100%_-_1920px)/2_+_58px))] pt-[86px] pb-[50px] max-[1200px]:px-[68px] max-[1200px]:pt-[68px] max-[600px]:px-[30px] max-[600px]:pt-[30px] max-[600px]:pb-5">
           <div className="flex items-center justify-between">
-            <Link href="/" onClick={() => setIsOpen(false)} className="w-[200px] max-[600px]:w-[145px]">
+            <Link href="/" onClick={() => setIsOpen(false)} className="inline-flex w-[200px] max-[1200px]:w-[170px] max-[600px]:w-[145px]">
               <Image src={logoUrl} alt="AMINOCLUB" width={192} height={39} />
             </Link>
-            <button type="button" onClick={() => setIsOpen(false)} className="grid size-16 place-items-center rounded-full border-0 bg-white text-[46px] font-light leading-none max-[600px]:size-[50px] max-[600px]:text-[36px]" aria-label="Закрыть меню">×</button>
+            <button type="button" onClick={() => setIsOpen(false)} className="grid size-14 cursor-pointer place-items-center rounded-full border-0 bg-white transition hover:bg-[#009d0a] hover:text-white max-[600px]:size-[46px]" aria-label="Закрыть меню">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="size-6">
+                <path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" />
+              </svg>
+            </button>
           </div>
 
           <nav className="my-auto flex flex-col items-center gap-7 py-12 text-center font-[family-name:var(--font-helvetica-neue)] text-[32px] leading-none max-[600px]:text-[28px]" aria-label="Меню сайта">

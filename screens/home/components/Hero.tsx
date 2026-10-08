@@ -6,7 +6,7 @@ export default function Hero() {
     <section
       className="relative flex h-[95vh] items-center overflow-hidden rounded-[30px] isolate max-[700px]:block max-[700px]:h-auto max-[700px]:min-h-0 max-[700px]:max-h-none max-[700px]:rounded-[20px] max-[700px]:bg-[#f8f8f8]"
       aria-labelledby="hero-title">
-      <Image className="-z-[2] object-cover object-center max-[700px]:hidden" src="/images/hero-v3.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 600px) 100vw, 100vw" />
+      <Image className="-z-[2] object-cover object-center max-[700px]:hidden" src="/images/hero-v4.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 600px) 100vw, 100vw" />
       <div className="relative hidden h-[435px] overflow-hidden max-[700px]:block max-[400px]:h-[400px]">
         <Image className="object-cover object-[center_66%]" src="/images/hero-mobile-v2.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 700px) 100vw, 0px" />
       </div>

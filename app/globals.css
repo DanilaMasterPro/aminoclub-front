@@ -37,6 +37,17 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
+/* No rubber-band bounce past the page edges (Safari / iOS). */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+/* Keep the scrollbar slot when a modal locks scrolling, so the page and fixed overlays do not shift. */
+html {
+  scrollbar-gutter: stable;
+}
+
 
 body {
   margin: 0;
