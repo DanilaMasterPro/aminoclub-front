@@ -66,8 +66,9 @@ export default function AdminResourceField({ field, value, categories, onChange,
         />
         <div className="mt-2 flex flex-wrap gap-2">
           {files.map((file, index) => (
-            <span key={`${file.url ?? file.fileUrl}-${index}`} className="rounded bg-slate-100 px-2 py-1 text-xs">
+            <span key={`${file.url ?? file.fileUrl}-${index}`} className="inline-flex items-center gap-2 rounded bg-slate-100 py-1 pr-1 pl-2 text-xs">
               {file.title ?? file.url ?? file.fileUrl}
+              <button type="button" onClick={() => onRemove(index)} aria-label={`Удалить ${file.title ?? "файл"}`} className="grid size-5 place-items-center rounded text-red-600 hover:bg-red-50">×</button>
             </span>
           ))}
         </div>

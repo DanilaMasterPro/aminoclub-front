@@ -96,7 +96,7 @@ export function useAdminResourceForm(resource: string, id?: string) {
         }
         if (field.type === "certificate-list") {
           const current = Array.isArray(currentValues[field.name]) ? currentValues[field.name] as Array<{ title: string; fileUrl: string }> : [];
-          return { ...currentValues, [field.name]: [...current, { title: file.name, fileUrl: data.url, sortOrder: current.length }] };
+          return { ...currentValues, [field.name]: [...current, { title: file.name.replace(/\.[^.]+$/, ""), fileUrl: data.url, sortOrder: current.length }] };
         }
         return { ...currentValues, [field.name]: data.url };
       });

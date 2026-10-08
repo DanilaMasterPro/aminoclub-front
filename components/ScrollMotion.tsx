@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
+import { SCROLL_LOCK_EVENT } from "@/utils/scrollLock";
 
 const fadeUpSelector = "[data-fade-up]";
 
@@ -80,9 +81,12 @@ export default function ScrollMotion() {
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
     document.addEventListener("click", scrollToAnchor);
+    const toggleScroll = (event: Event) => ((event as CustomEvent<boolean>).detail ? lenis.stop() : lenis.start());
+    window.addEventListener(SCROLL_LOCK_EVENT, toggleScroll);
 
     return () => {
       document.removeEventListener("click", scrollToAnchor);
+      window.removeEventListener(SCROLL_LOCK_EVENT, toggleScroll);
       gsap.ticker.remove(updateLenis);
       mutations.disconnect();
       observer.disconnect();

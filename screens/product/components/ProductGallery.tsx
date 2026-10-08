@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { resolveProductImageUrl } from "@/api/catalog";
 import { isVideoUrl, resolveMediaUrl } from "@/api/media";
 import type { CatalogProduct } from "@/api/types";
+import Lightbox from "@/components/Lightbox";
 import { SliderArrow, SliderDots } from "@/components/SliderControls";
 import { useProductGallery } from "../hooks/useProductGallery";
 
@@ -38,6 +39,7 @@ function GalleryVideo({ url, isActive }: { url: string; isActive: boolean }) {
 export default function ProductGallery({ product }: { product: CatalogProduct }) {
   const { activeIndex, setActiveIndex, setSwiper, goTo } = useProductGallery();
   const images = product.images.length ? product.images : [{ id: "empty", url: "/images/products/light-whey-chocolate.jpg", alt: product.title, sortOrder: 0 }];
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
     // Desktop: the gallery sticks while the description scrolls and stops at the end of the product section
@@ -46,10 +48,16 @@ export default function ProductGallery({ product }: { product: CatalogProduct })
       <div className="mx-auto w-full max-[1000px]:max-w-[720px]">
       <p className="mb-5 text-xs text-[#646a69]">Артикул: {product.sku || product.id.slice(-8).toUpperCase()}</p>
       <div className="relative">
-      <Swiper onSwiper={setSwiper} onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} className="overflow-hidden rounded-[20px] bg-white">
+      <Swiper
+        onSwiper={setSwiper}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+        // A click (not a drag) on a photo opens it full screen; on a video slide the click belongs to the player.
+        onClick={(swiper, event) => { if (!(event.target instanceof HTMLVideoElement)) setLightboxIndex(swiper.activeIndex); }}
+        className="overflow-hidden rounded-[20px] bg-white"
+      >
         {images.map((image, index) => (
           <SwiperSlide key={image.id}>
-            <div className="relative aspect-square">
+            <div className={`relative aspect-square ${isVideoUrl(image.url) ? "" : "cursor-zoom-in"}`}>
               {isVideoUrl(image.url) ? (
                 <GalleryVideo url={image.url} isActive={activeIndex === index} />
               ) : (
@@ -87,6 +95,14 @@ export default function ProductGallery({ product }: { product: CatalogProduct })
         </div>
       )}
       </div>
+      <Lightbox
+        items={images.map((image) => ({ url: image.url, alt: image.alt || product.title }))}
+        index={lightboxIndex}
+        onIndexChange={(index) => {
+          setLightboxIndex(index);
+          if (index !== null) goTo(index);
+        }}
+      />
     </div>
   );
 }

@@ -1,7 +1,10 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Image from "next/image";
 import Button from "@/components/Button";
+import Lightbox from "@/components/Lightbox";
+import { isPdfUrl, resolveMediaUrl } from "@/api/media";
 import type { CatalogProduct } from "@/api/types";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
@@ -9,6 +12,10 @@ import { parseCharacteristics } from "@/utils/stripHtml";
 
 export default function ProductDetails({ product }: { product: CatalogProduct }) {
   const [quantity, setQuantity] = useState(1);
+  const [certificateIndex, setCertificateIndex] = useState<number | null>(null);
+  const certificates = product.certificates ?? [];
+  // Images open in the lightbox; PDFs open in a new tab.
+  const certificateImages = certificates.filter((item) => !isPdfUrl(item.fileUrl));
   const { addItem } = useCart();
   const characteristics = parseCharacteristics(product.characteristics);
   return (
@@ -33,6 +40,30 @@ export default function ProductDetails({ product }: { product: CatalogProduct })
           ))}
         </dl>
       </section>
+      {certificates.length > 0 && (
+        <section className="mt-12" aria-labelledby="product-certificates-title">
+          <h2 id="product-certificates-title" className="border-b border-black/35 pb-4 text-sm font-medium">Сертификаты качества</h2>
+          <div className="mt-6 grid grid-cols-4 gap-3 max-[600px]:grid-cols-3">
+            {certificates.map((certificate) => isPdfUrl(certificate.fileUrl) ? (
+              <a key={certificate.id} href={resolveMediaUrl(certificate.fileUrl)} target="_blank" rel="noreferrer" className="flex aspect-[3/4] flex-col items-center justify-center gap-2 rounded-lg bg-white p-3 text-center text-xs text-[#5b6165] transition hover:text-[#009d0a]">
+                <span className="text-lg font-semibold text-[#009d0a]">PDF</span>
+                <span className="line-clamp-3">{certificate.title}</span>
+              </a>
+            ) : (
+              <button
+                key={certificate.id}
+                type="button"
+                onClick={() => setCertificateIndex(certificateImages.indexOf(certificate))}
+                aria-label={`Открыть: ${certificate.title}`}
+                className="relative aspect-[3/4] cursor-zoom-in overflow-hidden rounded-lg bg-white transition hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(0,0,0,.08)]"
+              >
+                <Image src={resolveMediaUrl(certificate.fileUrl)} alt={certificate.title} fill sizes="160px" className="object-contain p-2" />
+              </button>
+            ))}
+          </div>
+          <Lightbox items={certificateImages.map((item) => ({ url: item.fileUrl, caption: item.title }))} index={certificateIndex} onIndexChange={setCertificateIndex} />
+        </section>
+      )}
       <div className="mt-12 rounded-xl bg-[#009d0a] px-5 py-4 text-xs text-white">ⓘ &nbsp; Доставка в течение 2–5 дней.</div>
     </div>
   );
