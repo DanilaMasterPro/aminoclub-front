@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import Button from "@/components/Button";
-import { resolveProductImageUrl } from "@/api/catalog";
+import ProductCardMedia from "@/components/ProductCardMedia";
 import type { CatalogProduct } from "@/api/types";
 import { useCart } from "@/hooks/useCart";
 import { stripHtml } from "@/utils/stripHtml";
@@ -12,9 +13,22 @@ import { truncateText } from "@/utils/truncateText";
 type ProductCardProps = { product: CatalogProduct; animationDelay?: number };
 
 export default function ProductCard({ product, animationDelay = 0 }: ProductCardProps) {
-  const image = product.images[0];
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { items, addItem, removeItem, setQuantity } = useCart();
   const cartItem = items.find((item) => item.product.id === product.id);
+
+  function playVideo() {
+    const video = videoRef.current;
+    if (!video || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    void video.play().catch(() => undefined);
+  }
+
+  function stopVideo() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    video.currentTime = 0.001;
+  }
 
   function decreaseQuantity() {
     if (!cartItem) return;
@@ -31,13 +45,9 @@ export default function ProductCard({ product, animationDelay = 0 }: ProductCard
 
   return (
     // @container: the action row adapts to the card width (catalog with filters, sliders), not to the viewport.
-    <article data-testid="catalog-product" data-fade-up data-fade-up-delay={animationDelay} className="@container flex h-full min-w-0 flex-col rounded-[22px] bg-[#fcfbf8] p-5">
-      <Link href={`/catalog/${product.slug}`} className="relative block aspect-[390/274] overflow-hidden rounded-[15px] bg-[#f2f4ef]">
-        {image ? (
-          <Image className="object-cover transition duration-500 hover:scale-[1.025]" src={resolveProductImageUrl(image.url)} alt={image.alt || product.title} fill sizes="(max-width: 700px) 90vw, (max-width: 1100px) 45vw, 25vw" />
-        ) : (
-          <span className="flex h-full items-center justify-center px-5 text-center text-sm text-[#7a7f81]">Изображение скоро появится</span>
-        )}
+    <article data-testid="catalog-product" data-fade-up data-fade-up-delay={animationDelay} onMouseEnter={playVideo} onMouseLeave={stopVideo} className="@container flex h-full min-w-0 flex-col rounded-[22px] bg-[#fcfbf8] p-5">
+      <Link href={`/catalog/${product.slug}`} className="relative block aspect-square overflow-hidden rounded-[15px] bg-white">
+        <ProductCardMedia product={product} videoRef={videoRef} />
       </Link>
       <h2 className="mt-[25px] mb-[14px] text-[21px] font-medium"><Link href={`/catalog/${product.slug}`}>{product.title}{product.flavor ? ` ${product.flavor}` : ""}</Link></h2>
       <p className="min-h-[54px] text-sm leading-[1.4] text-[#5b6165] max-[600px]:min-h-0">{truncateText(stripHtml(product.description))}</p>

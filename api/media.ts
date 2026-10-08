@@ -7,3 +7,8 @@ export function resolveMediaUrl(url: string) {
     return url;
   }
 }
+
+/** Product media lists hold both photos and videos; videos are recognised by the file extension. */
+export function isVideoUrl(url: string) {
+  return /\.(mp4|webm)(?:[?#]|$)/i.test(url);
+}

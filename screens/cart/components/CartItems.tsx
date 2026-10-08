@@ -5,6 +5,7 @@ import Link from "next/link";
 import { resolveProductImageUrl } from "@/api/catalog";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
+import { productPhoto } from "@/utils/productMedia";
 import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/truncateText";
 
@@ -13,7 +14,7 @@ export default function CartItems() {
   return (
     <div className="space-y-12">
       {items.map(({ product, quantity }) => {
-        const image = product.images[0];
+        const image = productPhoto(product);
         return (
           <article data-testid="cart-item" key={product.id} className="grid grid-cols-[180px_1fr_auto] items-center gap-8 border-b border-black/10 pb-12 max-[800px]:grid-cols-[110px_1fr] max-[800px]:gap-4">
             <Link href={`/catalog/${product.slug}`} className="relative aspect-square overflow-hidden rounded-xl bg-[#fcfbf8]">

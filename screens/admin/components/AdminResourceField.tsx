@@ -47,6 +47,7 @@ export default function AdminResourceField({ field, value, categories, onChange,
         isUploading={isUploading}
         onUpload={onUpload}
         onRemove={onRemove}
+        acceptVideo={field.acceptVideo}
       />
     );
   }

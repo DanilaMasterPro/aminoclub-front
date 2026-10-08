@@ -21,10 +21,10 @@ export default function Hero() {
           Чистые составы, эффективные формулы и честный подход для тех, кто тренируется системно и достигает результата.
         </p>
         <div className="mt-[68px] max-[1200px]:mt-10 max-[700px]:hidden">
-          <Button label="СМОТРЕТЬ КАТАЛОГ" variant="outline" href="#catalog" showArrow />
+          <Button label="СМОТРЕТЬ КАТАЛОГ" variant="outline" href="/catalog" showArrow />
         </div>
         <div className="mt-6 hidden max-[700px]:block">
-          <Button label="СМОТРЕТЬ КАТАЛОГ" variant="light" href="#catalog" showArrow />
+          <Button label="СМОТРЕТЬ КАТАЛОГ" variant="light" href="/catalog" showArrow />
         </div>
       </div>
     </section>

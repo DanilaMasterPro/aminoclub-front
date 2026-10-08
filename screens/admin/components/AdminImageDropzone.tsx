@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveMediaUrl } from "@/api/media";
+import { isVideoUrl, resolveMediaUrl } from "@/api/media";
 import { useId, useState } from "react";
 
 type ImagePreview = { url: string; title?: string };
@@ -14,7 +14,11 @@ type AdminImageDropzoneProps = {
   isUploading?: boolean;
   onUpload: (file: File) => Promise<void>;
   onRemove: (index: number) => void;
+  /** Also accept MP4/WebM; videos are stored as uploaded. */
+  acceptVideo?: boolean;
 };
+
+const imageTypes = "image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml";
 
 export default function AdminImageDropzone({
   fieldName,
@@ -25,12 +29,13 @@ export default function AdminImageDropzone({
   isUploading = false,
   onUpload,
   onRemove,
+  acceptVideo = false,
 }: AdminImageDropzoneProps) {
   const inputId = useId();
   const [isDragging, setIsDragging] = useState(false);
 
   const uploadFiles = (files: FileList | File[]) => {
-    const selected = [...files].filter((file) => file.type.startsWith("image/"));
+    const selected = [...files].filter((file) => file.type.startsWith("image/") || (acceptVideo && (file.type === "video/mp4" || file.type === "video/webm")));
     const uploads = multiple ? selected : selected.slice(0, 1);
     void Promise.all(uploads.map(onUpload));
   };
@@ -57,15 +62,15 @@ export default function AdminImageDropzone({
           <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v3A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span className="mt-3 text-sm font-semibold text-slate-800">
-          {isUploading ? "Оптимизируем и загружаем…" : "Перетащите изображение сюда"}
+          {isUploading ? "Оптимизируем и загружаем…" : acceptVideo ? "Перетащите фото или видео сюда" : "Перетащите изображение сюда"}
         </span>
-        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF, SVG · до 10 МБ</span>
-        <span className="mt-1 text-xs text-slate-400">Файл автоматически сохранится в WebP</span>
+        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF, SVG{acceptVideo ? ", MP4, WebM" : ""} · до 10 МБ</span>
+        <span className="mt-1 text-xs text-slate-400">{acceptVideo ? "Фото сохранятся в WebP. Видео — как есть: лучше квадратное, без звука. Первое видео играет в карточке при наведении" : "Файл автоматически сохранится в WebP"}</span>
       </label>
       <input
         id={inputId}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml"
+        accept={acceptVideo ? `${imageTypes},video/mp4,video/webm` : imageTypes}
         multiple={multiple}
         disabled={isUploading}
         onChange={(event) => {
@@ -79,12 +84,16 @@ export default function AdminImageDropzone({
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {images.map((image, index) => (
             <div key={`${image.url}-${index}`} className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white">
-              <div
-                role="img"
-                aria-label={image.title || `Изображение ${index + 1}`}
-                className="aspect-square bg-slate-100 bg-cover bg-center"
-                style={{ backgroundImage: `url(${JSON.stringify(resolveMediaUrl(image.url))})` }}
-              />
+              {isVideoUrl(image.url) ? (
+                <video src={`${resolveMediaUrl(image.url)}#t=0.001`} className="aspect-square w-full bg-slate-100 object-cover" muted playsInline preload="metadata" controls aria-label={image.title || `Видео ${index + 1}`} />
+              ) : (
+                <div
+                  role="img"
+                  aria-label={image.title || `Изображение ${index + 1}`}
+                  className="aspect-square bg-slate-100 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${JSON.stringify(resolveMediaUrl(image.url))})` }}
+                />
+              )}
               <div className="truncate px-3 py-2 text-xs text-slate-500">{image.title || image.url.split("/").at(-1)}</div>
               <button
                 type="button"

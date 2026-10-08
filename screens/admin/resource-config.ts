@@ -8,6 +8,8 @@ export interface ResourceField {
   type?: FieldType;
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
+  /** file-list only: also accept MP4/WebM (product media). */
+  acceptVideo?: boolean;
 }
 
 export interface ResourceConfig {
@@ -43,7 +45,7 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       { name: "heightCm", label: "Высота, см", type: "number" },
       { name: "description", label: "Описание (можно HTML: абзацы, списки)", type: "textarea", required: true },
       { name: "characteristics", label: "Характеристики — по строке «Название: значение»", type: "textarea" },
-      { name: "images", label: "Изображения", type: "file-list" },
+      { name: "images", label: "Фото и видео", type: "file-list", acceptVideo: true },
       { name: "isActive", label: "Опубликован", type: "checkbox" },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
