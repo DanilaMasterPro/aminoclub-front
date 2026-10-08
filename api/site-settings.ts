@@ -17,7 +17,13 @@ export const defaultSiteSettings: SiteSettings = {
     title: "AMINOCLUB — спортивное питание",
     description: "Спортивное питание для ежедневного режима.",
     keywords: ["AMINOCLUB", "спортивное питание"],
-    imageUrl: "/images/hero-v3.png",
+    imageUrl: "/images/hero-v4.png",
+    pages: {
+      catalog: { title: "Каталог спортивного питания — AMINOCLUB", description: "Протеин, BCAA, креатин, L-карнитин, глютамин и аргинин AMINOCLUB. Доставка по России через Яндекс Доставку.", keywords: ["каталог спортивного питания", "протеин", "BCAA", "креатин", "AMINOCLUB"] },
+      contacts: { title: "Контакты — AMINOCLUB", description: "Связаться с AMINOCLUB: телефон, электронная почта и форма обратной связи.", keywords: ["контакты", "AMINOCLUB"] },
+      news: { title: "Блог — AMINOCLUB", description: "Статьи AMINOCLUB о спортивном питании, тренировках и восстановлении.", keywords: ["блог", "спортивное питание", "AMINOCLUB"] },
+      affiliate: { title: "Партнёрская программа — AMINOCLUB", description: "Партнёрская программа AMINOCLUB для тренеров и спортивных экспертов.", keywords: ["партнёрская программа", "тренерам", "AMINOCLUB"] },
+    },
   },
   menus: {
     header: [

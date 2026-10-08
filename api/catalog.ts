@@ -33,7 +33,7 @@ export function resolveProductImageUrl(url: string) {
   }
 }
 
-export type CatalogCategoryInfo = CatalogCategory & { seoTitle: string | null; seoDescription: string | null; description: string | null };
+export type CatalogCategoryInfo = CatalogCategory & { seoTitle: string | null; seoDescription: string | null; seoKeywords: string[]; description: string | null; imageUrl: string | null };
 
 /** Server-side category list (SEO metadata of the catalog page). */
 export const getCatalogCategories = cache(async (): Promise<CatalogCategoryInfo[]> => {

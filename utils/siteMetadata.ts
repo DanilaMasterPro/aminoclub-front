@@ -1,5 +1,6 @@
 import { resolveMediaUrl } from "@/api/media";
-import type { SiteSettings } from "@/api/types";
+import type { SeoSystemPage, SiteSettings } from "@/api/types";
+import { defaultSiteSettings } from "@/api/site-settings";
 import type { Metadata } from "next";
 
 type LocalSeo = {
@@ -39,4 +40,9 @@ export function buildSiteMetadata(local: LocalSeo, global: SiteSettings["seo"]):
       images: resolvedImageUrl ? [resolvedImageUrl] : undefined,
     },
   };
+}
+
+/** SEO of a code-built page from admin settings; falls back to the built-in default (e.g. an older API). */
+export function systemPageSeo(seo: SiteSettings["seo"], page: SeoSystemPage) {
+  return seo.pages?.[page] ?? defaultSiteSettings.seo.pages[page];
 }

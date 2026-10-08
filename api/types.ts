@@ -39,6 +39,7 @@ export interface CatalogProduct {
   characteristics?: string | null;
   seoTitle?: string | null;
   seoDescription?: string | null;
+  seoKeywords?: string[];
   price: string;
   stockQuantity: number;
   category: CatalogCategory;
@@ -61,6 +62,9 @@ export interface MenuItemSetting {
   group?: string;
 }
 
+export type SeoSystemPage = "catalog" | "contacts" | "news" | "affiliate";
+export type PageSeo = { title: string; description: string; keywords: string[] };
+
 export interface SiteSettings {
   general: {
     phone: string;
@@ -73,6 +77,8 @@ export interface SiteSettings {
     description: string;
     keywords: string[];
     imageUrl: string;
+    /** Meta tags of code-built pages, edited in admin → «SEO шаблон». */
+    pages: Record<SeoSystemPage, PageSeo>;
   };
   menus: {
     header: MenuItemSetting[];
