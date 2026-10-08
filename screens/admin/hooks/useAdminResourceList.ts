@@ -3,13 +3,20 @@
 import api from "@/api/client";
 import type { Paginated } from "@/api/types";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ResourceConfig } from "../resource-config";
 
 export type AdminResourceRow = Record<string, unknown> & {
   id: string;
   status?: string;
 };
+
+export function getNestedValue(row: AdminResourceRow, path: string): unknown {
+  return path.split(".").reduce<unknown>(
+    (value, key) => value && typeof value === "object" ? (value as Record<string, unknown>)[key] : undefined,
+    row,
+  );
+}
 
 function getErrorMessage(error: unknown, fallback: string) {
   if (!axios.isAxiosError(error)) return fallback;
@@ -19,6 +26,8 @@ function getErrorMessage(error: unknown, fallback: string) {
 
 export function useAdminResourceList(resource: string, config?: ResourceConfig) {
   const [items, setItems] = useState<AdminResourceRow[]>([]);
+  // Endpoints without pagination return every row: those lists are searched and filtered here, not on the server.
+  const [isFullList, setIsFullList] = useState(false);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [searchDraft, setSearchDraft] = useState("");
@@ -37,6 +46,7 @@ export function useAdminResourceList(resource: string, config?: ResourceConfig) 
 
   const applyItems = useCallback((data: Paginated<AdminResourceRow> | AdminResourceRow[]) => {
       setItems(Array.isArray(data) ? data : data.items);
+      setIsFullList(Array.isArray(data));
       setPages(Array.isArray(data) ? 1 : data.pages);
       setError("");
   }, []);
@@ -115,8 +125,16 @@ export function useAdminResourceList(resource: string, config?: ResourceConfig) 
     }
   };
 
+  const visibleItems = useMemo(() => {
+    if (!isFullList || !config) return items;
+    const query = search.trim().toLocaleLowerCase("ru");
+    return items.filter((row) =>
+      (!status || row.status === status)
+      && (!query || config.columns.some((column) => String(getNestedValue(row, column.key) ?? "").toLocaleLowerCase("ru").includes(query))));
+  }, [config, isFullList, items, search, status]);
+
   return {
-    items,
+    items: visibleItems,
     page,
     pages,
     searchDraft,

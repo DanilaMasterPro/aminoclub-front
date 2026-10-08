@@ -1,18 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent } from "react";
+import AdminListFilters from "./components/AdminListFilters";
 import AdminPageHeader from "./components/AdminPageHeader";
 import AdminTable from "./components/AdminTable";
-import { useAdminResourceList, type AdminResourceRow } from "./hooks/useAdminResourceList";
+import { getNestedValue, useAdminResourceList, type AdminResourceRow } from "./hooks/useAdminResourceList";
 import { resourceConfigs } from "./resource-config";
-
-function getNestedValue(row: AdminResourceRow, path: string): unknown {
-  return path.split(".").reduce<unknown>(
-    (value, key) => value && typeof value === "object" ? (value as Record<string, unknown>)[key] : undefined,
-    row,
-  );
-}
 
 function formatValue(value: unknown) {
   if (typeof value === "boolean") return value ? "Да" : "Нет";
@@ -31,11 +24,6 @@ export default function AdminResourceListScreen({ resource }: { resource: string
 
   if (!config) return <p>Раздел не найден.</p>;
 
-  const submitSearch = (event: FormEvent) => {
-    event.preventDefault();
-    applySearch();
-  };
-
   const confirmRemove = (row: AdminResourceRow) => {
     if (window.confirm(`Удалить ${config.singular}?`)) void remove(row);
   };
@@ -47,18 +35,11 @@ export default function AdminResourceListScreen({ resource }: { resource: string
   return (
     <section data-testid={`admin-${resource}`}>
       <AdminPageHeader eyebrow="Управление" title={config.title} action={createAction} />
-      <form onSubmit={submitSearch} className="mb-4 flex flex-wrap gap-3 rounded-xl border border-slate-200 bg-white p-4">
-        {config.searchable && (
-          <input aria-label="Поиск" value={searchDraft} onChange={(event) => setSearchDraft(event.target.value)} placeholder="Поиск…" className="min-w-64 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#009d0a]" />
-        )}
-        {config.statusFilter && (
-          <select aria-label="Статус" value={status} onChange={(event) => setStatus(event.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">
-            <option value="">Все статусы</option>
-            {config.statusFilter.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-          </select>
-        )}
-        {(config.searchable || config.statusFilter) && <button className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium">Применить</button>}
-      </form>
+      <AdminListFilters
+        search={config.searchable ? { value: searchDraft, onChange: setSearchDraft } : undefined}
+        status={config.statusFilter ? { value: status, options: config.statusFilter, onChange: setStatus } : undefined}
+        onSubmit={applySearch}
+      />
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
 

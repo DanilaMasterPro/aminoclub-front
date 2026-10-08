@@ -25,6 +25,8 @@ export interface ResourceConfig {
   fields?: ResourceField[];
 }
 
+const contentStatusOptions = [{ label: "Черновик", value: "DRAFT" }, { label: "Опубликована", value: "PUBLISHED" }, { label: "Архив", value: "ARCHIVED" }];
+
 export const resourceConfigs: Record<string, ResourceConfig> = {
   products: {
     title: "Товары", singular: "товар", endpoint: "/admin/products", createable: true, editable: true, searchable: true,
@@ -53,7 +55,7 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
     ],
   },
   categories: {
-    title: "Категории", singular: "категорию", endpoint: "/admin/categories", createable: true, editable: true,
+    title: "Категории", singular: "категорию", endpoint: "/admin/categories", createable: true, editable: true, searchable: true,
     autoFill: { slug: "title", seoTitle: "title", seoDescription: "description" },
     columns: [{ key: "title", label: "Название" }, { key: "slug", label: "Slug" }, { key: "isActive", label: "Активна" }, { key: "_count.products", label: "Товаров" }],
     fields: [
@@ -86,7 +88,7 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
     columns: [{ key: "name", label: "Имя" }, { key: "surname", label: "Фамилия" }, { key: "email", label: "Email" }, { key: "specialization", label: "Специализация" }, { key: "status", label: "Статус" }],
   },
   "promo-codes": {
-    title: "Промокоды", singular: "промокод", endpoint: "/admin/promo-codes", createable: true, editable: true,
+    title: "Промокоды", singular: "промокод", endpoint: "/admin/promo-codes", createable: true, editable: true, searchable: true,
     columns: [{ key: "code", label: "Код" }, { key: "type", label: "Тип" }, { key: "value", label: "Скидка" }, { key: "usageCount", label: "Использований" }, { key: "isActive", label: "Активен" }],
     fields: [
       { name: "code", label: "Код", required: true }, { name: "type", label: "Тип", type: "select", required: true, options: [{ label: "Процент", value: "PERCENT" }, { label: "Фиксированная", value: "FIXED" }] },
@@ -96,33 +98,35 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
     ],
   },
   pages: {
-    title: "Страницы", singular: "страницу", endpoint: "/admin/pages", createable: true, editable: true,
+    title: "Страницы", singular: "страницу", endpoint: "/admin/pages", createable: true, editable: true, searchable: true,
+    statusFilter: contentStatusOptions,
     autoFill: { slug: "title", seoTitle: "title", seoDescription: "content" },
     columns: [{ key: "title", label: "Название" }, { key: "slug", label: "Slug" }, { key: "status", label: "Статус" }, { key: "updatedAt", label: "Обновлена" }],
     fields: [
       { name: "title", label: "Название", required: true }, { name: "slug", label: "Slug", required: true },
       { name: "heading", label: "Заголовок", required: true }, { name: "content", label: "Содержимое", type: "textarea", required: true },
       { name: "imageUrls", label: "Изображения", type: "image-list" },
-      { name: "status", label: "Статус", type: "select", options: [{ label: "Черновик", value: "DRAFT" }, { label: "Опубликована", value: "PUBLISHED" }, { label: "Архив", value: "ARCHIVED" }] },
+      { name: "status", label: "Статус", type: "select", options: contentStatusOptions },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
     ],
   },
   articles: {
-    title: "Новости", singular: "новость", endpoint: "/admin/articles", createable: true, editable: true,
+    title: "Новости", singular: "новость", endpoint: "/admin/articles", createable: true, editable: true, searchable: true,
+    statusFilter: contentStatusOptions,
     autoFill: { slug: "title", seoTitle: "title", seoDescription: "excerpt" },
     columns: [{ key: "title", label: "Заголовок" }, { key: "slug", label: "Slug" }, { key: "status", label: "Статус" }, { key: "publishedAt", label: "Публикация" }],
     fields: [
       { name: "title", label: "Заголовок", required: true }, { name: "slug", label: "Slug", required: true },
       { name: "excerpt", label: "Анонс", type: "textarea" }, { name: "content", label: "Содержимое", type: "textarea", required: true },
       { name: "coverImageUrl", label: "Обложка", type: "image" },
-      { name: "status", label: "Статус", type: "select", options: [{ label: "Черновик", value: "DRAFT" }, { label: "Опубликована", value: "PUBLISHED" }, { label: "Архив", value: "ARCHIVED" }] },
+      { name: "status", label: "Статус", type: "select", options: contentStatusOptions },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
     ],
   },
   banners: {
-    title: "Баннеры", singular: "баннер", endpoint: "/admin/banners", createable: true, editable: true,
+    title: "Баннеры", singular: "баннер", endpoint: "/admin/banners", createable: true, editable: true, searchable: true,
     columns: [{ key: "title", label: "Название" }, { key: "placement", label: "Расположение" }, { key: "sortOrder", label: "Порядок" }, { key: "isActive", label: "Активен" }],
     fields: [
       { name: "title", label: "Название", required: true }, { name: "imageUrl", label: "Изображение", type: "image", required: true },
