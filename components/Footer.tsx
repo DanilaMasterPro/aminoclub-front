@@ -2,6 +2,7 @@ import { telHref } from "@/utils/phone";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/api/media";
 import { getSiteSettings } from "@/api/site-settings";
+import CallbackButton from "@/components/CallbackButton";
 import type { MenuItemSetting } from "@/api/types";
 
 function groupFooterLinks(items: MenuItemSetting[]) {
@@ -58,6 +59,7 @@ export default async function Footer() {
             <Image src="/icons/footer/mail.svg" alt="" width={25} height={25} />
             {settings.general.email}
           </a>
+          <CallbackButton className="mt-1 mb-6" />
           <div className="mt-2 flex gap-3">
             {settings.general.socialLinks.map((social) => (
               <a

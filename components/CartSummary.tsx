@@ -19,7 +19,7 @@ export default function CartSummary({ promo, variant = "cart", delivery }: CartS
   const isCheckout = variant === "checkout";
 
   return (
-    <aside className={`sticky top-6 self-start rounded-[22px] bg-[#fcfbf8] p-8 ${isCheckout ? "w-full max-w-[500px] justify-self-end max-[950px]:max-w-none" : ""} max-[1050px]:static`}>
+    <aside className={`sticky top-[calc(var(--sticky-header-h)+24px)] self-start rounded-[22px] bg-[#fcfbf8] p-8 ${isCheckout ? "w-full max-w-[500px] justify-self-end max-[950px]:max-w-none" : ""} max-[1050px]:static`}>
       <h2 className="mb-8 text-[22px] font-medium">Заказ</h2>
       <div className="space-y-4 text-sm">
         {items.map(({ product, quantity }) => (

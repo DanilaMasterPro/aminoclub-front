@@ -43,21 +43,21 @@ export default function HeaderActions({ cartHref, logoUrl, menuItems, socialLink
   return (
     <>
       <nav className="flex gap-3" aria-label="Основная навигация">
-        <Link className="relative grid size-14 place-items-center rounded-full bg-white/95 max-[600px]:size-[46px]" href={cartHref} aria-label={`Корзина, товаров: ${itemCount}`}>
+        <Link className="relative grid size-14 place-items-center rounded-full bg-white/95 max-[600px]:size-[46px] group-data-stuck:bg-[#f5f3ed] min-[601px]:group-data-stuck:size-12" href={cartHref} aria-label={`Корзина, товаров: ${itemCount}`}>
           <svg aria-hidden="true" className="size-[25px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
             <path d="M6 8h12l1 12H5L6 8Z" strokeLinejoin="round" />
             <path d="M9 8V6a3 3 0 0 1 6 0v2" strokeLinecap="round" />
           </svg>
           {itemCount > 0 && <span className="absolute -top-1 -right-1 grid min-h-5 min-w-5 place-items-center rounded-full bg-[#009d0a] px-1 text-[10px] font-bold text-white">{itemCount}</span>}
         </Link>
-        <button onClick={() => setIsOpen(true)} className="grid size-14 content-center place-items-center gap-[5px] rounded-full border-0 bg-white/95 max-[600px]:size-[46px]" type="button" aria-label="Открыть меню" aria-expanded={isOpen}>
+        <button onClick={() => setIsOpen(true)} className="grid size-14 content-center place-items-center gap-[5px] rounded-full border-0 bg-white/95 max-[600px]:size-[46px] group-data-stuck:bg-[#f5f3ed] min-[601px]:group-data-stuck:size-12" type="button" aria-label="Открыть меню" aria-expanded={isOpen}>
           <span className="block h-0.5 w-6 bg-[#161a1a]" />
           <span className="block h-0.5 w-6 bg-[#161a1a]" />
           <span className="block h-0.5 w-6 bg-[#161a1a]" />
         </button>
       </nav>
 
-      <div className={`fixed inset-0 z-[100] bg-[#f5f3ed] transition duration-300 ${isOpen ? "visible opacity-100" : "invisible opacity-0"}`} role="dialog" aria-modal="true" aria-label="Меню сайта">
+      <div className={`fixed inset-y-0 right-(--scroll-lock-gap) left-0 z-[100] bg-[#f5f3ed] transition duration-300 ${isOpen ? "visible opacity-100" : "invisible opacity-0"}`} role="dialog" aria-modal="true" aria-label="Меню сайта">
         {/* Same offsets as the page header (page margin + header padding), so the logo and the close button
             stay exactly where the logo and the burger were: 28+58 / 28+40 / 12+18 px; centred above 1976px like <main>. */}
         <div className="flex h-full min-h-[520px] flex-col px-[max(86px,calc((100%_-_1920px)/2_+_58px))] pt-[86px] pb-[50px] max-[1200px]:px-[68px] max-[1200px]:pt-[68px] max-[600px]:px-[30px] max-[600px]:pt-[30px] max-[600px]:pb-5">

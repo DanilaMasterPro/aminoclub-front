@@ -19,7 +19,7 @@ export default function ProductScreen({ product }: { product: CatalogProduct }) 
         ]}
       />
       {/* The gallery column is exactly the gallery square (capped by the viewport height), so no empty band appears between photo and text. */}
-      <section className="grid grid-cols-[min(55%,calc(100svh-220px))_minmax(0,1fr)] gap-16 page-gutter pb-4 max-[1200px]:gap-10 max-[1000px]:grid-cols-1">
+      <section className="grid grid-cols-[min(55%,calc(100svh-212px-var(--sticky-header-h)))_minmax(0,1fr)] gap-16 page-gutter pb-4 max-[1200px]:gap-10 max-[1000px]:grid-cols-1">
         <ProductGallery product={product} />
         <ProductDetails product={product} />
       </section>

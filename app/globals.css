@@ -5,6 +5,22 @@
   --foreground: #15191a;
   --green: #009d0a;
   --font-helvetica-neue: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Height of the compact header fixed after scrolling (StickyHeader). */
+  --sticky-header-h: 72px;
+  /* Scrollbar width while a modal locks scrolling (set by setScrollLocked), so fixed bars do not widen. */
+  --scroll-lock-gap: 0px;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --sticky-header-h: 70px;
+  }
+}
+
+@keyframes header-in {
+  from {
+    transform: translateY(-100%);
+  }
 }
 
 /* Horizontal page gutter: inner pages line up with the header logo (Header uses the same paddings). */

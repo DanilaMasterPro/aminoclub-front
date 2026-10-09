@@ -34,7 +34,9 @@ export default function ScrollMotion() {
       if (!target) return;
 
       event.preventDefault();
-      lenis.scrollTo(target, { offset: -16 });
+      // Keep the target clear of the fixed header (StickyHeader).
+      const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--sticky-header-h")) || 0;
+      lenis.scrollTo(target, { offset: -(headerHeight + 16) });
       window.history.pushState(null, "", href);
     };
     const observer = new IntersectionObserver(
