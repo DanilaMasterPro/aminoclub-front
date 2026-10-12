@@ -68,6 +68,7 @@ export type PageSeo = { title: string; description: string; keywords: string[] }
 export interface SiteSettings {
   general: {
     phone: string;
+    secondPhone: string;
     email: string;
     logoUrl: string;
     socialLinks: SocialLinkSetting[];

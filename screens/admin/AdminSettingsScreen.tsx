@@ -10,7 +10,7 @@ import { useAdminSettingSection } from "./hooks/useAdminSettings";
 const inputClassName = "mt-2 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-[#009d0a]";
 
 export default function AdminSettingsScreen() {
-  const settings = useAdminSettingSection("general", { phone: "", email: "", logoUrl: "", socialLinks: [] });
+  const settings = useAdminSettingSection("general", { phone: "", secondPhone: "", email: "", logoUrl: "", socialLinks: [] });
 
   const updateSocialLink = (id: string, patch: Partial<SocialLinkSetting>) => {
     settings.setValue((current) => ({
@@ -33,6 +33,10 @@ export default function AdminSettingsScreen() {
           <label className="text-sm font-medium">
             Номер телефона
             <input type="tel" value={settings.value.phone} onChange={(event) => settings.setValue((current) => ({ ...current, phone: event.target.value }))} className={inputClassName} />
+          </label>
+          <label className="text-sm font-medium">
+            Второй номер телефона <span className="font-normal text-slate-500">(необязательно)</span>
+            <input type="tel" value={settings.value.secondPhone ?? ""} onChange={(event) => settings.setValue((current) => ({ ...current, secondPhone: event.target.value }))} className={inputClassName} />
           </label>
           <label className="text-sm font-medium">
             Email

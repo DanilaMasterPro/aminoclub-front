@@ -5,6 +5,7 @@ import type { CmsPage, SiteSettings } from "./types";
 export const defaultSiteSettings: SiteSettings = {
   general: {
     phone: "8 (812) 325-03-29",
+    secondPhone: "+7 (921) 348-63-71",
     email: "info@aminoclub.spb.ru",
     logoUrl: "/icons/logo.svg",
     socialLinks: [

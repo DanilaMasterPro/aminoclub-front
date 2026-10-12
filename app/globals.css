@@ -65,6 +65,16 @@ html {
 }
 
 
+/* iOS Safari zooms the page into a focused field whose text is smaller than 16px (and keeps it zoomed):
+   on touch screens form fields stay at 16px. Unlayered, so it wins over the text-* utilities. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em);
+  }
+}
+
 body {
   margin: 0;
   background: var(--background);

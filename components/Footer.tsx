@@ -18,7 +18,7 @@ export default async function Footer() {
   const settings = await getSiteSettings();
   const footerLinks = groupFooterLinks(settings.menus.footer);
   const logoUrl = resolveMediaUrl(settings.general.logoUrl || "/icons/logo.svg");
-  const phoneHref = telHref(settings.general.phone);
+  const phones = [settings.general.phone, settings.general.secondPhone].filter(Boolean);
 
   return (
     <footer className="overflow-hidden rounded-[28px] bg-[#f8f8f8] bg-[url('/images/footer.png')] bg-cover bg-center max-[680px]:rounded-[20px]">
@@ -52,9 +52,11 @@ export default async function Footer() {
         </div>
         <div className="flex flex-col items-start max-[1050px]:col-span-full">
           <h2 className="mb-[18px] text-[17px] font-bold">Свяжитесь с нами</h2>
-          <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={phoneHref}>
-            <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />{settings.general.phone}
-          </a>
+          {phones.map((phone) => (
+            <a key={phone} className="mb-[17px] flex items-center gap-[13px] text-[15px] whitespace-nowrap text-[#4c5257]" href={telHref(phone)}>
+              <Image src="/icons/footer/phone.svg" alt="" width={25} height={25} />{phone}
+            </a>
+          ))}
           <a className="mb-[17px] flex items-center gap-[13px] text-[15px] text-[#4c5257]" href={`mailto:${settings.general.email}`}>
             <Image src="/icons/footer/mail.svg" alt="" width={25} height={25} />
             {settings.general.email}

@@ -31,12 +31,16 @@ export default function CallbackModal({ isOpen, onClose }: { isOpen: boolean; on
   const form = useCallbackForm();
   const { reset } = form;
   const phoneRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isOpen) return;
     const previousFocus = document.activeElement as HTMLElement | null;
     setScrollLocked(true);
-    phoneRef.current?.focus();
+    // With a mouse the phone field gets focus right away; on touch screens that would pop the keyboard
+    // over the form at once, so only the dialog itself is focused (for screen readers and Esc).
+    if (window.matchMedia("(pointer: fine)").matches) phoneRef.current?.focus();
+    else dialogRef.current?.focus({ preventScroll: true });
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
     window.addEventListener("keydown", closeOnEscape);
     return () => {
@@ -55,7 +59,7 @@ export default function CallbackModal({ isOpen, onClose }: { isOpen: boolean; on
       onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
       className="fixed inset-0 z-[1000] overflow-y-auto overscroll-contain bg-[#15191a]/60 px-4 py-10 backdrop-blur-sm max-[600px]:px-3 max-[600px]:py-3"
     >
-      <div role="dialog" aria-modal="true" aria-labelledby="callback-title" className="relative mx-auto w-full max-w-[680px] rounded-[28px] bg-[#f5f3ed] px-16 pt-16 pb-14 max-[700px]:rounded-[20px] max-[700px]:px-5 max-[700px]:pt-14 max-[700px]:pb-8">
+      <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="callback-title" className="relative outline-none mx-auto w-full max-w-[680px] rounded-[28px] bg-[#f5f3ed] px-16 pt-16 pb-14 max-[700px]:rounded-[20px] max-[700px]:px-5 max-[700px]:pt-14 max-[700px]:pb-8">
         <button type="button" onClick={onClose} aria-label="Закрыть" className="absolute top-5 right-5 grid size-11 place-items-center rounded-full bg-white transition hover:bg-[#009d0a] hover:text-white max-[700px]:top-3 max-[700px]:right-3">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="size-5"><path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" /></svg>
         </button>

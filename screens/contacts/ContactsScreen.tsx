@@ -21,7 +21,11 @@ export default async function ContactsScreen() {
           </div>
         </div>
         <div className="mt-32 grid grid-cols-2 items-center border-y border-black/35 py-20 max-[700px]:grid-cols-1 max-[700px]:gap-8">
-          <a href={telHref(settings.general.phone)} className="font-[family-name:var(--font-helvetica-neue)] text-[54px] tracking-[-0.04em] max-[600px]:text-[38px]">{settings.general.phone}</a>
+          <div className="flex flex-col items-start gap-2">
+            {[settings.general.phone, settings.general.secondPhone].filter(Boolean).map((phone) => (
+              <a key={phone} href={telHref(phone)} className="font-[family-name:var(--font-helvetica-neue)] text-[54px] whitespace-nowrap tracking-[-0.04em] max-[600px]:text-[34px]">{phone}</a>
+            ))}
+          </div>
           <address className="justify-self-end text-[22px] not-italic leading-8 text-[#a0a4a2] max-[700px]:justify-self-start">ООО «Ингредиенты. Развитие»<br />198184, Санкт-Петербург,<br />Канонерский остров, д. 3, корп. 1, лит. Б</address>
         </div>
       </section>

@@ -11,7 +11,7 @@ export default function Hero() {
       aria-labelledby="hero-title">
       <Image className="-z-[2] object-cover object-right max-[900px]:hidden" src="/images/hero-v4.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 600px) 100vw, 100vw" />
       <div className="relative hidden h-[435px] overflow-hidden max-[900px]:block max-[400px]:h-[400px]">
-        <Image className="object-cover object-[center_66%]" src="/images/hero-mobile-v2.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 900px) 100vw, 0px" />
+        <Image className="object-cover object-[center_66%]" src="/images/hero-mobile-v3.png" alt="Протеиновые продукты AMINOCLUB" fill priority sizes="(max-width: 900px) 100vw, 0px" />
       </div>
       <div data-fade-up className="w-[50%] pl-[58px] max-[1200px]:pl-10 max-[900px]:w-full max-[900px]:px-[18px] max-[900px]:py-8">
         <p className="mb-[52px] max-w-[85%] text-xl font-bold tracking-[.18em] text-[#009d0a] uppercase max-[1200px]:mb-9 max-[1200px]:text-base max-[900px]:hidden">Спортивное питание для ежедневного режима</p>
