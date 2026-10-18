@@ -40,7 +40,7 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       { name: "title", label: "Название", required: true }, { name: "slug", label: "Slug", required: true },
       { name: "sku", label: "Артикул", required: true }, { name: "categoryId", label: "ID категории", required: true },
       { name: "flavor", label: "Вкус" }, { name: "price", label: "Цена, ₽", type: "number", required: true },
-      { name: "stockQuantity", label: "Остаток", type: "number", required: true },
+      { name: "stockQuantity", label: "Остаток на складе, шт.", type: "number", required: true },
       { name: "weightGrams", label: "Вес в упаковке, г", type: "number" },
       { name: "lengthCm", label: "Длина, см", type: "number" },
       { name: "widthCm", label: "Ширина, см", type: "number" },

@@ -25,6 +25,9 @@ export function useAdminResourceForm(resource: string, id?: string) {
   const [isSaving, setIsSaving] = useState(false);
   const [uploadsInProgress, setUploadsInProgress] = useState(0);
   const [error, setError] = useState("");
+  // Product stock as loaded: it is sent on save only when changed, so editing other fields
+  // never overwrites sales that happened while the form was open.
+  const [loadedStock, setLoadedStock] = useState<number | null>(null);
 
   useEffect(() => {
     if (resource !== "products") return;
@@ -44,7 +47,10 @@ export function useAdminResourceForm(resource: string, id?: string) {
     if (!id || !config) return;
     const requestController = new AbortController();
     api.get<AdminResourceValues>(`${config.endpoint}/${id}`, { signal: requestController.signal })
-      .then(({ data }) => setValues(data))
+      .then(({ data }) => {
+        setValues(data);
+        if (typeof data.stockQuantity === "number") setLoadedStock(data.stockQuantity);
+      })
       .catch((requestError: unknown) => {
         if (!requestController.signal.aborted) setError(getErrorMessage(requestError, "Не удалось загрузить запись"));
       })
@@ -54,10 +60,7 @@ export function useAdminResourceForm(resource: string, id?: string) {
     return () => requestController.abort();
   }, [config, id]);
 
-  const fields = useMemo(
-    () => (config?.fields ?? []).filter((field) => !(resource === "products" && id && field.name === "stockQuantity")),
-    [config, id, resource],
-  );
+  const fields = useMemo(() => config?.fields ?? [], [config]);
 
   const setValue = (name: string, value: unknown) => {
     setValues((current) => {
@@ -146,6 +149,8 @@ export function useAdminResourceForm(resource: string, id?: string) {
         });
       } else payload[field.name] = value;
     }
+
+    if (id && resource === "products" && payload.stockQuantity === loadedStock) delete payload.stockQuantity;
 
     try {
       if (id) await api.patch(`${config.endpoint}/${id}`, payload);
