@@ -4,7 +4,7 @@ import type { ResourceField } from "../resource-config";
 import type { AdminCategoryOption } from "../hooks/useAdminResourceForm";
 import AdminImageDropzone from "./AdminImageDropzone";
 
-type AttachedFile = { url?: string; fileUrl?: string; title?: string };
+type AttachedFile = { url?: string; title?: string };
 
 type AdminResourceFieldProps = {
   field: ResourceField;
@@ -52,29 +52,7 @@ export default function AdminResourceField({ field, value, categories, onChange,
     );
   }
 
-  if (field.type === "certificate-list") {
-    const files = Array.isArray(value) ? value as AttachedFile[] : [];
-    return (
-      <div className="sm:col-span-2">
-        <span className="text-sm font-medium">{field.label}</span>
-        <input
-          type="file"
-          accept="image/*,.pdf"
-          multiple
-          onChange={(event) => void Promise.all([...(event.target.files ?? [])].map(onUpload))}
-          className={inputClassName}
-        />
-        <div className="mt-2 flex flex-wrap gap-2">
-          {files.map((file, index) => (
-            <span key={`${file.url ?? file.fileUrl}-${index}`} className="inline-flex items-center gap-2 rounded bg-slate-100 py-1 pr-1 pl-2 text-xs">
-              {file.title ?? file.url ?? file.fileUrl}
-              <button type="button" onClick={() => onRemove(index)} aria-label={`Удалить ${file.title ?? "файл"}`} className="grid size-5 place-items-center rounded text-red-600 hover:bg-red-50">×</button>
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  }
+
 
   const wide = field.type === "textarea" ? "sm:col-span-2" : "";
 

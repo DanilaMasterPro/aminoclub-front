@@ -44,7 +44,6 @@ export interface CatalogProduct {
   stockQuantity: number;
   category: CatalogCategory;
   images: CatalogProductImage[];
-  certificates?: Array<{ id: string; title: string; fileUrl: string; sortOrder: number }>;
 }
 
 export interface SocialLinkSetting {

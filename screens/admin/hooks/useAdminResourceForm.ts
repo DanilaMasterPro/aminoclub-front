@@ -97,10 +97,6 @@ export function useAdminResourceForm(resource: string, id?: string) {
           const current = Array.isArray(currentValues[field.name]) ? currentValues[field.name] as string[] : [];
           return { ...currentValues, [field.name]: [...current, data.url] };
         }
-        if (field.type === "certificate-list") {
-          const current = Array.isArray(currentValues[field.name]) ? currentValues[field.name] as Array<{ title: string; fileUrl: string }> : [];
-          return { ...currentValues, [field.name]: [...current, { title: file.name.replace(/\.[^.]+$/, ""), fileUrl: data.url, sortOrder: current.length }] };
-        }
         return { ...currentValues, [field.name]: data.url };
       });
     } catch (uploadError: unknown) {
@@ -115,7 +111,7 @@ export function useAdminResourceForm(resource: string, id?: string) {
       if (field.type === "image") return { ...currentValues, [field.name]: "" };
       const current = Array.isArray(currentValues[field.name]) ? currentValues[field.name] as unknown[] : [];
       const remaining = current.filter((_item, itemIndex) => itemIndex !== index);
-      if (field.type === "file-list" || field.type === "certificate-list") {
+      if (field.type === "file-list") {
         return {
           ...currentValues,
           [field.name]: remaining.map((item, sortOrder) => ({ ...(item as object), sortOrder })),
@@ -141,11 +137,6 @@ export function useAdminResourceForm(resource: string, id?: string) {
         payload[field.name] = value.map((item, sortOrder) => {
           const image = item as { url: string; alt?: string };
           return { url: image.url, alt: image.alt, sortOrder };
-        });
-      } else if (field.type === "certificate-list" && Array.isArray(value)) {
-        payload[field.name] = value.map((item, sortOrder) => {
-          const certificate = item as { title: string; fileUrl: string };
-          return { title: certificate.title, fileUrl: certificate.fileUrl, sortOrder };
         });
       } else payload[field.name] = value;
     }

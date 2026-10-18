@@ -1,6 +1,6 @@
 import { orderStatusLabels } from "./order-labels";
 
-export type FieldType = "text" | "textarea" | "number" | "checkbox" | "select" | "date" | "image" | "image-list" | "file-list" | "certificate-list" | "tags";
+export type FieldType = "text" | "textarea" | "number" | "checkbox" | "select" | "date" | "image" | "image-list" | "file-list" | "tags";
 
 export interface ResourceField {
   name: string;
@@ -48,7 +48,6 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
       { name: "description", label: "Описание (можно HTML: абзацы, списки)", type: "textarea", required: true },
       { name: "characteristics", label: "Характеристики — по строке «Название: значение»", type: "textarea" },
       { name: "images", label: "Фото и видео", type: "file-list", acceptVideo: true },
-      { name: "certificates", label: "Сертификаты качества (фото или PDF)", type: "certificate-list" },
       { name: "isActive", label: "Опубликован", type: "checkbox" },
       { name: "seoTitle", label: "SEO title" }, { name: "seoDescription", label: "SEO description", type: "textarea" },
       { name: "seoKeywords", label: "SEO keywords через запятую", type: "tags" },
