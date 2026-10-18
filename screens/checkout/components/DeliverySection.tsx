@@ -3,6 +3,7 @@
 import type { DeliveryAddress } from "@/api/types";
 import { formatPrice } from "@/utils/formatPrice";
 import type { DeliveryFormState } from "../hooks/useDeliveryForm";
+import PickupPointsMap from "./PickupPointsMap";
 
 const inputClass = "h-12 w-full rounded-lg border border-transparent bg-white px-5 text-sm outline-none transition focus:border-[#15191a]";
 
@@ -98,6 +99,7 @@ export default function DeliverySection({ delivery }: { delivery: DeliveryFormSt
                     placeholder="Поиск пункта по улице или метро"
                     aria-label="Поиск пункта выдачи"
                   />
+                  <PickupPointsMap points={delivery.mapPoints} onSelect={delivery.setPickupPoint} />
                   <div className="mt-3 max-h-80 overflow-auto rounded-xl bg-white text-sm" data-testid="pickup-points">
                     {delivery.isLoadingPoints && <p className="px-5 py-4 text-[#747978]">Загружаем пункты выдачи…</p>}
                     {!delivery.isLoadingPoints && !delivery.points.items.length && (

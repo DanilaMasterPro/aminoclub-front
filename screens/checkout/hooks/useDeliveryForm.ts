@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { findLocations, findPickupPoints, quoteDelivery } from "@/api/delivery";
+import { findLocations, findMapPickupPoints, findPickupPoints, quoteDelivery } from "@/api/delivery";
 import type { DeliveryAddress, DeliveryLocation, DeliveryMethod, DeliveryPayload, DeliveryQuote, PickupPoint } from "@/api/types";
 
 type CheckoutLine = { productId: string; quantity: number };
@@ -21,6 +21,7 @@ export function useDeliveryForm(lines: CheckoutLine[]) {
   const [method, setMethodValue] = useState<DeliveryMethod>("PICKUP_POINT");
   const [pointSearch, setPointSearch] = useState("");
   const [points, setPoints] = useState<Keyed<{ total: number; items: PickupPoint[] }>>({ key: "", value: { total: 0, items: [] } });
+  const [mapPoints, setMapPoints] = useState<Keyed<PickupPoint[]>>({ key: "", value: [] });
   const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
   const [address, setAddressValue] = useState<DeliveryAddress>({ street: "", house: "" });
   const [quoteState, setQuoteState] = useState<Keyed<{ quote: DeliveryQuote | null; error: string }>>({ key: "", value: { quote: null, error: "" } });
@@ -57,6 +58,18 @@ export function useDeliveryForm(lines: CheckoutLine[]) {
       findPickupPoints(location.geoId, pointSearch.trim(), controller.signal)
         .then((value) => setPoints({ key: pointsKey, value }))
         .catch(() => { if (!controller.signal.aborted) setPoints({ key: pointsKey, value: { total: 0, items: [] } }); });
+    }, 300);
+    return () => { window.clearTimeout(timeout); controller.abort(); };
+  }, [location, pointSearch, pointsKey]);
+
+  // The map gets every matching point of the city with coordinates (same search as the list).
+  useEffect(() => {
+    if (!pointsKey || !location) return;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => {
+      findMapPickupPoints(location.geoId, pointSearch.trim(), controller.signal)
+        .then((value) => setMapPoints({ key: pointsKey, value }))
+        .catch(() => { if (!controller.signal.aborted) setMapPoints({ key: pointsKey, value: [] }); });
     }, 300);
     return () => { window.clearTimeout(timeout); controller.abort(); };
   }, [location, pointSearch, pointsKey]);
@@ -102,6 +115,7 @@ export function useDeliveryForm(lines: CheckoutLine[]) {
     pointSearch,
     points: points.key === pointsKey ? points.value : { total: 0, items: [] },
     isLoadingPoints: Boolean(pointsKey) && points.key !== pointsKey,
+    mapPoints: mapPoints.key === pointsKey ? mapPoints.value : [],
     pickupPoint,
     address,
     payload,

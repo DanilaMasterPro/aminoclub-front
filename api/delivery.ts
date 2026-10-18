@@ -14,6 +14,15 @@ export async function findPickupPoints(geoId: number, search: string, signal?: A
   return data;
 }
 
+/** All matching points with coordinates, for the map (the list endpoint returns only the first 50). */
+export async function findMapPickupPoints(geoId: number, search: string, signal?: AbortSignal) {
+  const { data } = await api.get<{ items: PickupPoint[] }>("/delivery/pickup-points/map", {
+    params: { geoId, search: search || undefined },
+    signal,
+  });
+  return data.items;
+}
+
 export async function quoteDelivery(
   items: Array<{ productId: string; quantity: number }>,
   delivery: DeliveryPayload,
