@@ -26,7 +26,7 @@ export default async function ContactsScreen() {
               <a key={phone} href={telHref(phone)} className="font-[family-name:var(--font-helvetica-neue)] text-[54px] whitespace-nowrap tracking-[-0.04em] max-[600px]:text-[34px]">{phone}</a>
             ))}
           </div>
-          <address className="justify-self-end text-[22px] not-italic leading-8 text-[#a0a4a2] max-[700px]:justify-self-start">ООО «Ингредиенты. Развитие»<br />198184, Санкт-Петербург,<br />Канонерский остров, д. 3, корп. 1, лит. Б</address>
+          <address className="justify-self-end text-[22px] not-italic leading-8 text-[#a0a4a2] max-[700px]:justify-self-start"><span className="mb-2 block text-[#15191a]">адрес:</span>ООО «Ингредиенты. Развитие»<br />198184, Санкт-Петербург,<br />Канонерский остров, д. 3, корп. 1, лит. Б</address>
         </div>
       </section>
     </PublicPageShell>
