@@ -1,7 +1,7 @@
 import { resolveProductImageUrl } from "@/api/catalog";
 import type { CatalogProduct } from "@/api/types";
 import JsonLd from "@/components/JsonLd";
-import { isVideoUrl } from "@/api/media";
+import { productPhotos } from "@/utils/productMedia";
 import { siteUrl } from "@/utils/siteUrl";
 import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/truncateText";
@@ -17,7 +17,7 @@ export default function ProductJsonLd({ product }: { product: CatalogProduct }) 
         name: `${product.title}${product.flavor ? ` ${product.flavor}` : ""}`,
         sku: product.sku,
         description: truncateText(stripHtml(product.description), 500),
-        image: product.images.filter((item) => !isVideoUrl(item.url)).map((item) => resolveProductImageUrl(item.url)),
+        image: productPhotos(product).map((item) => resolveProductImageUrl(item.url)),
         brand: { "@type": "Brand", name: "AMINOCLUB" },
         category: product.category.title,
         url,

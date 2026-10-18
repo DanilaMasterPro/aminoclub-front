@@ -14,7 +14,7 @@ type AdminImageDropzoneProps = {
   isUploading?: boolean;
   onUpload: (file: File) => Promise<void>;
   onRemove: (index: number) => void;
-  /** Also accept MP4/WebM; videos are stored as uploaded. */
+  /** Also accept MP4/WebM/MOV; the backend re-encodes videos for scroll scrubbing and saves a poster frame. */
   acceptVideo?: boolean;
 };
 
@@ -35,7 +35,7 @@ export default function AdminImageDropzone({
   const [isDragging, setIsDragging] = useState(false);
 
   const uploadFiles = (files: FileList | File[]) => {
-    const selected = [...files].filter((file) => file.type.startsWith("image/") || (acceptVideo && (file.type === "video/mp4" || file.type === "video/webm")));
+    const selected = [...files].filter((file) => file.type.startsWith("image/") || (acceptVideo && ["video/mp4", "video/webm", "video/quicktime"].includes(file.type)));
     const uploads = multiple ? selected : selected.slice(0, 1);
     void Promise.all(uploads.map(onUpload));
   };
@@ -64,13 +64,13 @@ export default function AdminImageDropzone({
         <span className="mt-3 text-sm font-semibold text-slate-800">
           {isUploading ? "Оптимизируем и загружаем…" : acceptVideo ? "Перетащите фото или видео сюда" : "Перетащите изображение сюда"}
         </span>
-        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF, SVG{acceptVideo ? ", MP4, WebM" : ""} · до 10 МБ</span>
-        <span className="mt-1 text-xs text-slate-400">{acceptVideo ? "Фото сохранятся в WebP. Видео — как есть: лучше квадратное, без звука. Первое видео играет в карточке при наведении" : "Файл автоматически сохранится в WebP"}</span>
+        <span className="mt-1 text-xs text-slate-500">или нажмите для выбора · JPG, PNG, WebP, AVIF, GIF, SVG{acceptVideo ? ", MP4, WebM, MOV" : ""} · до 10 МБ</span>
+        <span className="mt-1 text-xs text-slate-400">{acceptVideo ? "Фото сохранятся в WebP. Видео лучше квадратное: звук удаляется, на странице товара оно перематывается прокруткой, в карточке играет при наведении" : "Файл автоматически сохранится в WebP"}</span>
       </label>
       <input
         id={inputId}
         type="file"
-        accept={acceptVideo ? `${imageTypes},video/mp4,video/webm` : imageTypes}
+        accept={acceptVideo ? `${imageTypes},video/mp4,video/webm,video/quicktime` : imageTypes}
         multiple={multiple}
         disabled={isUploading}
         onChange={(event) => {
