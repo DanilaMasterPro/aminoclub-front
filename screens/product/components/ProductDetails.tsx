@@ -33,7 +33,9 @@ export default function ProductDetails({ product }: { product: CatalogProduct })
           className="whitespace-pre-line py-8 text-sm leading-7 text-[#6b706f] [&_li]:mt-1 [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mt-2 [&_ol]:list-decimal [&_ol]:pl-5"
           dangerouslySetInnerHTML={{ __html: product.description }}
         />
-        <dl className="grid max-w-[620px] grid-cols-[minmax(140px,2fr)_3fr] border border-black/30 text-sm [&>dd]:border-l [&>dd]:border-black/30 [&>dd]:p-5 [&>dt]:p-5 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(n+3)]:border-black/30">
+        {/* Two columns from 601px; on phones each row is stacked (name above, value full width) so long values
+            wrap instead of widening the page. The value column may shrink below its longest word (minmax(0,…)). */}
+        <dl className="grid max-w-[620px] grid-cols-[minmax(120px,2fr)_minmax(0,3fr)] border border-black/30 text-sm break-words [&>dd]:border-l [&>dd]:border-black/30 [&>dd]:p-5 [&>dt]:p-5 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(n+3)]:border-black/30 max-[600px]:grid-cols-1 max-[600px]:[&>dd:nth-child(n+3)]:border-t-0 max-[600px]:[&>dd]:border-l-0 max-[600px]:[&>dd]:px-4 max-[600px]:[&>dd]:pt-1 max-[600px]:[&>dd]:pb-4 max-[600px]:[&>dt]:px-4 max-[600px]:[&>dt]:pt-4 max-[600px]:[&>dt]:pb-0 max-[600px]:[&>dt]:text-xs max-[600px]:[&>dt]:text-[#8b8f8e]">
           <dt>Вкус</dt><dd>{product.flavor || "Без вкуса"}</dd>
           {characteristics.map((row) => (
             <Fragment key={row.name}><dt>{row.name}</dt><dd>{row.value}</dd></Fragment>
