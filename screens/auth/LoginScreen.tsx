@@ -46,7 +46,7 @@ export default function LoginScreen() {
         <p className="mb-2 text-sm font-medium text-[#009d0a]">Вход для команды</p>
         <h1 className="text-3xl font-semibold tracking-tight">{step === "email" ? "Получить код" : "Введите код"}</h1>
         <p className="mt-3 text-sm leading-6 text-slate-500">
-          {step === "email" ? "Отправим одноразовый код на рабочую почту." : `Код отправлен на ${email}.`}
+          {step === "email" ? "Отправим одноразовый код на рабочую почту." : `Код отправлен на ${email}. Если письма нет пару минут — загляните в «Спам».`}
         </p>
         <form className="mt-8 space-y-4" onSubmit={submit}>
           {step === "email" ? (
