@@ -27,7 +27,7 @@ export default function ContentPageScreen({ page }: { page: CmsPage }) {
       )}
 
       <article
-        className="mx-auto max-w-[840px] py-[100px] text-base leading-8 text-[#535958] max-[700px]:py-16 max-[600px]:text-sm max-[600px]:leading-7 [&_a]:text-[#009d0a] [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-3xl [&_h2]:font-medium [&_h3]:mt-9 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-medium [&_li]:ml-5 [&_li]:list-disc [&_p]:mb-6"
+        className="mx-auto max-w-[840px] py-[100px] text-base leading-8 text-[#535958] max-[700px]:py-16 max-[600px]:text-sm max-[600px]:leading-7 [&_a]:text-[#009d0a] [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-3xl [&_h2]:font-medium [&_h3]:mt-9 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-medium [&_li]:ml-5 [&_li]:list-disc [&_p]:mb-6 [&_ul]:mb-6"
         dangerouslySetInnerHTML={{ __html: page.content }}
       />
 
