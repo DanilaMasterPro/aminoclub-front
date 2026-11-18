@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import AdminAdminsScreen from "@/screens/admin/AdminAdminsScreen";
 import AdminReferralScreen from "@/screens/admin/AdminReferralScreen";
 import AdminMenuSettingsScreen from "@/screens/admin/AdminMenuSettingsScreen";
 import AdminOrderScreen from "@/screens/admin/AdminOrderScreen";
@@ -26,6 +27,7 @@ export default async function AdminResourcePage({ params }: PageProps<"/admin/[.
   if (resource === "settings") {
     if (id === "seo") return <AdminSeoSettingsScreen />;
     if (id === "menu") return <AdminMenuSettingsScreen />;
+    if (id === "admins") return <AdminAdminsScreen />;
     notFound();
   }
 

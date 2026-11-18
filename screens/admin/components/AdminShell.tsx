@@ -21,6 +21,7 @@ const settingsNav = [
   ["Меню", "/admin/settings/menu"],
   ["SEO шаблон", "/admin/settings/seo"],
   ["Общие", "/admin/settings"],
+  ["Администраторы", "/admin/settings/admins"],
 ] as const;
 
 function Shell({ user, children }: { user: AuthUser; children: React.ReactNode }) {

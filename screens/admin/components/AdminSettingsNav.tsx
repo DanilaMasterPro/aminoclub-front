@@ -7,6 +7,7 @@ const links = [
   ["Общие", "/admin/settings"],
   ["SEO шаблон", "/admin/settings/seo"],
   ["Меню", "/admin/settings/menu"],
+  ["Администраторы", "/admin/settings/admins"],
 ] as const;
 
 export default function AdminSettingsNav() {
