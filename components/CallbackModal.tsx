@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/Button";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { type CallbackMessenger, useCallbackForm } from "@/hooks/useCallbackForm";
 import { setScrollLocked } from "@/utils/scrollLock";
 
@@ -120,16 +120,7 @@ export default function CallbackModal({ isOpen, onClose }: { isOpen: boolean; on
                 )}
               </fieldset>
 
-              <label className="flex cursor-pointer items-start gap-3 pt-2 text-[13px] leading-snug text-[#4f555b]">
-                <input type="checkbox" name="consent" required defaultChecked className="peer sr-only" />
-                <span aria-hidden="true" className="mt-px grid size-5 shrink-0 place-items-center rounded-[5px] border-[1.5px] border-[#b9bcb9] bg-white text-transparent transition peer-checked:border-[#009d0a] peer-checked:bg-[#009d0a] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#009d0a]/40">
-                  <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-3"><path d="m1 5 3.5 3.5L11 1" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </span>
-                <span>
-                  Подтверждаю согласие на обработку персональных данных и принимаю{" "}
-                  <Link href="/privacy" target="_blank" className="text-[#009d0a] underline-offset-2 hover:underline">Политику конфиденциальности</Link>
-                </span>
-              </label>
+              <ConsentCheckbox className="pt-2" />
 
               {form.error && <p className="text-sm text-red-600" aria-live="polite">{form.error}</p>}
               <Button type="submit" label={form.status === "sending" ? "Отправляем…" : "Отправить"} disabled={form.status === "sending"} className="mt-2 h-14 w-full uppercase disabled:opacity-60" />

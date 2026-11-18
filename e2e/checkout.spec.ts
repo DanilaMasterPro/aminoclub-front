@@ -1,4 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { acceptPersonalDataConsent, dismissCookieBanner } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await dismissCookieBanner(page);
+});
 
 test("customer picks Yandex delivery, pays and sees the order result page", async ({ page, request }) => {
   const response = await request.get("http://localhost:4000/api/products?limit=1");
@@ -24,6 +29,7 @@ test("customer picks Yandex delivery, pays and sees the order result page", asyn
   await page.getByLabel("Дом, корпус").fill("1");
   await expect(page.getByTestId("delivery-quote")).toContainText("500");
 
+  await acceptPersonalDataConsent(page);
   await page.getByRole("button", { name: "Оплатить" }).click();
   await expect(page).toHaveURL(/\/order\/success\?.*demo=1/);
   const result = page.getByTestId("order-result");

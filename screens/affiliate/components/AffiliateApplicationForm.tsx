@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent } from "react";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { useAffiliateApplication } from "../hooks/useAffiliateApplication";
 
 const inputClassName = "mt-2 w-full rounded-[12px] border border-[#cfd2cd] bg-white px-4 py-3.5 text-sm outline-none transition focus:border-[#009d0a]";
@@ -54,8 +55,9 @@ export default function AffiliateApplicationForm() {
       </label>
       <label className="flex items-start gap-3 text-sm leading-6 text-[#555b5b] sm:col-span-2">
         <input required type="checkbox" checked={values.termsAccepted} onChange={(event) => setValue("termsAccepted", event.target.checked)} className="mt-1 size-4 shrink-0 accent-[#009d0a]" />
-        Я принимаю условия партнёрской программы и даю согласие на обработку персональных данных.
+        Я принимаю условия партнёрской программы.
       </label>
+      <ConsentCheckbox className="sm:col-span-2" />
       {error && <p role="alert" className="text-sm text-red-600 sm:col-span-2">{error}</p>}
       <div className="sm:col-span-2">
         <button disabled={isSubmitting} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#009d0a] px-8 py-3 text-sm font-semibold text-white transition hover:-translate-y-px disabled:cursor-wait disabled:opacity-50">

@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import type { AppliedPromo } from "@/api/types";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { useCheckout } from "../hooks/useCheckout";
 import type { DeliveryFormState } from "../hooks/useDeliveryForm";
 import DeliverySection from "./DeliverySection";
@@ -26,10 +28,15 @@ export default function CheckoutForm({ promo, delivery }: { promo: AppliedPromo 
         <textarea className={`${inputClass} h-24 w-full py-4`} name="comment" maxLength={500} placeholder="Комментарий к заказу" />
       </fieldset>
       <p className="mt-8 text-sm text-[#747978]">Оплата банковской картой или через СБП на защищённой странице Robokassa. Чек придёт на указанный email.</p>
+      <ConsentCheckbox className="mt-6" />
       {checkout.error && <p role="alert" className="mt-5 text-sm text-red-600">{checkout.error}</p>}
       <button type="submit" disabled={checkout.isSubmitting || delivery.isQuoting} className="mt-8 min-h-12 w-[310px] rounded-xl bg-[#009d0a] px-8 font-semibold text-white disabled:opacity-60 max-[600px]:w-full">
         {checkout.isSubmitting ? "Переходим к оплате…" : "Оплатить"}
       </button>
+      <p className="mt-4 text-[13px] leading-snug text-[#747978]">
+        Нажимая «Оплатить», вы принимаете условия{" "}
+        <Link href="/offer" target="_blank" className="text-[#009d0a] underline-offset-2 hover:underline">публичной оферты</Link>
+      </p>
     </form>
   );
 }

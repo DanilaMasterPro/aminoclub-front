@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import ScrollMotion from "@/components/ScrollMotion";
 import CartProvider from "@/components/cart/CartProvider";
 import ReferralTracker from "@/components/ReferralTracker";
+import CookieBanner from "@/components/CookieBanner";
 import { resolveMediaUrl } from "@/api/media";
 import { getSiteSettings } from "@/api/site-settings";
 import "./globals.css";
@@ -144,6 +145,7 @@ export default function RootLayout({
           <ScrollMotion />
           <ReferralTracker />
           {children}
+          <CookieBanner />
         </CartProvider>
       </body>
     </html>

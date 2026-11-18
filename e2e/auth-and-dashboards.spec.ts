@@ -1,4 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
+import { acceptPersonalDataConsent, dismissCookieBanner } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await dismissCookieBanner(page);
+});
 
 async function login(page: Page, email: string) {
   await page.goto("/login");
@@ -31,7 +36,7 @@ test("trainer submits a public affiliate application", async ({ page }) => {
   const email = `affiliate.${Date.now()}@aminoclub.local`;
   await page.goto("/affiliate");
 
-  await expect(page.getByTestId("affiliate-form").locator("input[required], textarea[required]")).toHaveCount(10);
+  await expect(page.getByTestId("affiliate-form").locator("input[required], textarea[required]")).toHaveCount(11);
 
   await page.getByLabel("Имя", { exact: true }).fill("Анна");
   await page.getByLabel("Фамилия", { exact: true }).fill("Тренерова");
@@ -43,6 +48,7 @@ test("trainer submits a public affiliate application", async ({ page }) => {
   await page.getByLabel("Размер аудитории", { exact: true }).fill("1500");
   await page.getByLabel("Расскажите о себе", { exact: true }).fill("Провожу персональные и групповые тренировки.");
   await page.getByLabel(/Я принимаю условия/).check();
+  await acceptPersonalDataConsent(page);
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByTestId("affiliate-success")).toBeVisible();

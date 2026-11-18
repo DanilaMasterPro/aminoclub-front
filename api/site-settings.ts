@@ -40,6 +40,7 @@ export const defaultSiteSettings: SiteSettings = {
       { id: "contacts", label: "Контакты", href: "#", group: "Покупателям" },
       { id: "privacy", label: "Политика", href: "/privacy", group: "Документы" },
       { id: "offer", label: "Оферта", href: "/offer", group: "Документы" },
+      { id: "consent", label: "Согласие на обработку данных", href: "/consent", group: "Документы" },
       { id: "terms", label: "Соглашение", href: "#", group: "Документы" },
       { id: "partner-program", label: "Партнёрская программа", href: "/affiliate", group: "Документы" },
     ],
